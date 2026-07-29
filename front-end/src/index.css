@@ -1,0 +1,392 @@
+*{
+  box-sizing: border-box;
+  font-family: "Segoe UI", Arial, Helvetica, sans-serif;
+}
+body{
+  margin: 0;
+  background: #f7f7fb;
+  color: #1e1e2f;
+}
+/*AUTH (Login/Register)*/
+.auth-container{
+  min-height: 100vh;
+  display: flex;
+}
+
+.auth-left{
+  width: 50%;
+  background: #eeeaff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 80px;
+}
+
+.auth-left .brand{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 60px;
+}
+.auth-left .brand img{
+   width:120px;
+   height:auto;
+}
+.auth-left .brand span{
+  color: #6c63ff;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.auth-left h1{
+  font-size: 42px;
+  margin: 0 0 16px;
+  line-height: 1.2;
+}
+
+.auth-left p{
+  color: #555;
+  font-size:16px;
+}
+.auth-right{
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items:center;
+  background: white;
+  padding: 40px;
+}
+
+.form-box{
+  width:380px;
+}
+.form-box h2{
+  font-size: 28px;
+  margin-bottom: 4px;
+}
+.form-box .subtitle{
+  color: #888;
+  margin-bottom: 28px;
+  font-size: 14px;
+}
+
+.form-row{
+  display: flex;
+  gap: 12px;
+}
+
+.field{
+  margin-bottom: 16px;
+  flex: 1;
+}
+
+.field label{
+  display: block;
+  font-size: 13px;
+  color: #333;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+.field .password-wrap{
+  position: relative;
+}
+input{
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  background: #fafafa;
+}
+
+input:focus{
+  outline: none;
+  border-color: #6c63ff;
+  background: white;
+}
+
+button{
+  width: 100%;
+  padding: 13px;
+  margin-top: 10px;
+  background: #6c63ff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+button:hover{
+  background: #5548ff;
+}
+.form-box .switch{
+  text-align: center;
+  margin-top: 20px;
+  font-size: 14px;
+  color: #555;
+}
+
+.form-box .switch a{
+  color: #6c63ff;
+  font-weight: 600;
+  text-decoration: none;
+}
+/*APP SHELL*/
+.app-shell{
+  display: flex;
+  min-height: 100vh;
+}
+
+/*Sidebar*/
+.menu{
+  width: 240px;
+  min-height: 100vh;
+  background: white;
+  padding: 24px 18px;
+  display: flex;
+  flex-direction:column;
+  border-right: 1px solid #eee;
+}
+
+.menu .brand{
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 8px 24px;
+}
+
+.menu .brand img{
+  width: 128px;
+  height: auto;
+}
+.menu .brand span{
+  color: #6c63ff;
+  font-size:20px;
+  font-weight:700;
+}
+.menu nav{
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.menu a{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  text-decoration: none;
+  color: #777;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.menu a:hover{
+  background: #f2f0ff;
+  color: #6c63ff;
+}
+
+.menu a.active{
+  background: #6c63ff;
+  color: white;
+}
+
+.menu .logout{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  color: #e15555;
+  font-size: 14px;
+  font-weight: 500;
+  border: none;
+  background: none;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+}
+
+/*Main area*/
+.main-area{
+  flex: 1;
+  padding: 28px 36px;
+}
+/*top bar*/
+.topbar{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 28px;
+}
+
+.topbar .search{
+  padding: 10px 16px;
+  border: 1px solid #ddd;
+  border-radius:8px;
+  width: 260px;
+  background: white;
+}
+
+.topbar .actions{
+  display:flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.topbar .icon-btn{
+  background: #f2f0ff;
+  border:none;
+  width:38px;
+  height: 38px;
+  border-radius:8px;
+  cursor: pointer;
+  color: #6c63ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.topbar .add-btn{
+  width: auto;
+  margin: 0;
+  padding: 10px 18px;
+  font-size: 14px;
+}
+
+/*Stat cards*/
+.cards{
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+  margin-bottom: 28px;
+}
+.card{
+  background: white;
+  padding: 20px;
+  border-radius:14px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.04);
+}
+.card .icon{
+  width:34px;
+  height:34px;
+  border-radius:8px;
+  background:#f2f0ff;
+  color:#6c63ff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin-bottom:14px;
+}
+.card h2{
+  font-size:28px;
+  margin:0;
+}
+.card p{
+  margin:4px 0 0;
+  color:#888;
+  font-size:13px;
+}
+/*Leaderboard*/
+.panel{
+  background:white;
+  border-radius:14px;
+  padding:22px;
+  box-shadow:0 4px 14px rgba(0,0,0,0.04);
+  margin-bottom:28px;
+}
+
+.panel h3{
+  margin:0 0 16px;
+  font-size:16px;
+}
+
+.leaderboard-row{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  padding:10px 0;
+  border-top:1px solid #f2f2f2;
+}
+
+.leaderboard-row:first-of-type{
+  border-top:none;
+}
+.leaderboard-row .rank{
+  width:20px;
+  color:#999;
+  font-weight:600;
+}
+.leaderboard-row img{
+  width:36px;
+  height:36px;
+  border-radius:50%;
+  object-fit:cover;
+}
+
+.leaderboard-row .name{
+  font-weight:600;
+  font-size:14px;
+}
+
+.leaderboard-row .tag{
+  font-size:11px;
+  background:#eafaf0;
+  color:#24a35a;
+  padding:2px 8px;
+  border-radius:6px;
+  margin-left:6px;
+}
+.leaderboard-row .pts{
+  margin-left:auto;
+  font-weight:600;
+  color:#333;
+}
+
+/*Wishlist grid*/
+.wishlist-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:18px;
+}
+
+.wishlist-card{
+  background:white;
+  border-radius:14px;
+  overflow:hidden;
+  box-shadow:0 4px 14px rgba(0,0,0,0.04);
+}
+
+.wishlist-card .thumb{
+  height:130px;
+  background:#eee;
+  position:relative;
+}
+.wishlist-card .heart{
+  position:absolute;
+  top:10px;
+  right:10px;
+  background:white;
+  border-radius:50%;
+  width:26px;
+  height:26px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#6c63ff;
+  font-size:13px;
+}
+.wishlist-card .info{
+  padding:12px 14px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+.wishlist-card .info span{
+  font-size:13px;
+  font-weight:600;
+}

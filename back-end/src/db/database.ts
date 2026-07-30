@@ -43,6 +43,21 @@ export async function createUser(
     return result as any;
 }
 
-
+export async function getUserById(id:number){
+    const [rows] = await pool.query(
+        `SELECT
+            id,
+            first_name,
+            last_name,
+            email,
+            phone,
+            location,
+            profile_picture
+        FROM user
+        WHERE id = ? `,
+        [id]
+    );
+    return rows as any[];
+}
 
 export default pool;

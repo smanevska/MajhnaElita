@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import Menu from "../components/Menu";
 //Hardcoded data
 const stats=[
@@ -21,6 +22,24 @@ const wishlist=[
 ];
 
 export default function Dashboard(){
+  useEffect(() => {
+  async function getUser(){
+    const token = localStorage.getItem("token");
+    const response = await fetch(
+      "http://88.200.63.148:30170/users/me",
+      {
+        headers:{
+          Authorization:`Bearer ${token}`
+        }
+      }
+    );
+    const data = await response.json();
+    console.log("CURRENT USER:", data);
+  }
+  getUser();
+}, []);
+
+
   return(
     <div className="app-shell">
       <Menu />

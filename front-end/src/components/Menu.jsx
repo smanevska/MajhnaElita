@@ -32,7 +32,7 @@ export default function Menu(){
       <button
         className="logout"
         onClick={() =>{
-          localStorage.removeItem("user");
+          localStorage.removeItem("token");
           window.location.href="/login";    
           }} >
         Log Out

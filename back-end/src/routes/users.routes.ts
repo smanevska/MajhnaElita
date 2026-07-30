@@ -1,5 +1,7 @@
 import {Request, Response, NextFunction, Router} from "express";
-import {authUser, createUser} from "../db/database.js";
+import {authUser, createUser, getUserById} from "../db/database.js";
+import jwt from "jsonwebtoken";
+import {authenticateToken, AuthRequest} from "../middleware/auth.js";
 
 const router =Router();
 
@@ -41,15 +43,16 @@ const loginUser=async (
             });
         }
         // Login successful
+        const token = jwt.sign(
+        {   id: user.id,
+            email: user.email },
+        process.env.JWT_SECRET!,
+        {  expiresIn: "180d" }
+    );
         return res.status(200).json({
             success:true,
             message:"Login successful.",
-            user: {
-                id: user.id,
-                first_name: user.first_name,
-                last_name: user.last_name,
-                email: user.email,
-            }
+            token: token
         });
     } catch(error) {
         next(error);
@@ -131,7 +134,37 @@ const registerUser = async (
     }
 };
 
+
+
+// GET CURRENT USER
+const getCurrentUser=async(
+    req:AuthRequest,
+    res:Response,
+    next:NextFunction
+) =>{
+    try {
+        const userId=req.user.id;
+        const queryResult = await getUserById(userId);
+
+        if (queryResult.length === 0){
+            return res.status(404).json({
+                success: false,
+                message: "User not found."
+            });
+        }
+
+        return res.status(200).json({
+            success: true,
+            user: queryResult[0]
+        });
+
+    } catch(error){
+        next(error);
+    }
+};
+
 router.post("/login", loginUser);
 router.post("/register", registerUser);
+router.get("/me", authenticateToken, getCurrentUser);
 
 export default router;

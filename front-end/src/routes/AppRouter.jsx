@@ -4,7 +4,7 @@ import Register from "../pages/Register";
 import Login from "../pages/Login";
 import Dashboard from "../pages/Dashboard";
 import Menu from "../components/Menu";
-
+import Settings from "../pages/Settings";
 
 export default function AppRouter(){
     return (
@@ -27,6 +27,9 @@ export default function AppRouter(){
                     path="*" 
                     element={<Navigate to="/" />}
                 />
+                <Route
+                path="/settings"
+                element={<Settings />}/>
             </Routes>
         </BrowserRouter>
 

@@ -6,7 +6,7 @@ const links = [
   {to:"#", label:"My Items"},
   {to:"#", label:"Messages"},
   {to:"#", label:"Transactions" },
-  {to:"#", label:"Settings"},
+  {to:"/settings", label:"Settings"},
 ];
 
 export default function Menu(){

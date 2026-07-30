@@ -1,9 +1,18 @@
 import {Request, Response, NextFunction, Router} from "express";
-import {authUser, createUser, getUserById} from "../db/database.js";
+import {authUser, createUser, getUserById, updateUserProfile} from "../db/database.js";
 import jwt from "jsonwebtoken";
 import {authenticateToken, AuthRequest} from "../middleware/auth.js";
-
+import multer from "multer";
 const router =Router();
+
+const storage=multer.diskStorage({
+    destination(req, file, cb) {
+        cb(null, "uploads/");},
+    filename(req, file, cb) {
+        cb(null, Date.now() + "-" +file.originalname);
+    }
+});
+const upload = multer({ storage });
 
 // LOGIN
 const loginUser=async (
@@ -163,8 +172,46 @@ const getCurrentUser=async(
     }
 };
 
+
+//Profile Managing in Settings
+const updateProfile=async (
+    req: AuthRequest,
+    res: Response,
+    next: NextFunction
+) => {
+    try{
+        const userId=req.user.id;
+        const {
+            phone,
+            location
+        } = req.body;
+        const profile_picture = req.file
+            ? "uploads/" + req.file.filename
+            : "";
+        const queryResult=await updateUserProfile(
+            userId,
+            phone || "",
+            location || "",
+            profile_picture
+        );
+        if(queryResult.affectedRows === 1){
+            return res.status(200).json({
+                success:true,
+                message:"Profile updated."
+            });
+        }
+        return res.status(404).json({
+            success:false,
+            message:"User not found."
+        });
+    }catch(error){
+        next(error);
+    }
+};
+
 router.post("/login", loginUser);
 router.post("/register", registerUser);
 router.get("/me", authenticateToken, getCurrentUser);
+router.put("/profile", authenticateToken,upload.single("profile_picture"), updateProfile);
 
 export default router;

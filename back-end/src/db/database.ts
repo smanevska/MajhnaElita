@@ -59,5 +59,25 @@ export async function getUserById(id:number){
     );
     return rows as any[];
 }
+export async function updateUserProfile(
+    id: number,
+    phone: string,
+    location: string,
+    profile_picture: string
+){
+    const [result] = await pool.query(
+        `UPDATE user
+        SET
+            phone = ?,
+            location = ?,
+            profile_picture = ?
+        WHERE id = ?`,
+           [ phone,
+            location,
+            profile_picture,
+            id  ]
+    );
 
+    return result as any;
+}
 export default pool;

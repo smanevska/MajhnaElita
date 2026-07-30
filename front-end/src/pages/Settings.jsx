@@ -11,7 +11,7 @@ export default function Settings() {
         location:"",
         profile_picture:""
     });
-
+    const [selectedFile, setSelectedFile] = useState(null);
     useEffect(() =>{
         async function getUser(){
             const token = localStorage.getItem("token");
@@ -21,7 +21,6 @@ export default function Settings() {
                     headers:{Authorization:`Bearer ${token}`}
                 }
             );
-
             const data = await response.json();
 
             if(data.success){
@@ -32,6 +31,33 @@ export default function Settings() {
     },[]);
 
 
+
+async function saveProfile(){
+    const token =localStorage.getItem("token");
+    const formData=new FormData();
+    formData.append("phone", user.phone);
+    formData.append("location", user.location);
+    if (selectedFile) {
+        formData.append("profile_picture", selectedFile);
+    }
+    const response=await fetch(
+        "http://88.200.63.148:30170/users/profile",
+        {
+            method: "PUT",
+            headers: {
+                Authorization: `Bearer ${token}`},
+            body: formData
+        }
+    );
+    const data = await response.json();
+    alert(data.message);
+}
+
+async function handleImageChange(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    setSelectedFile(file);
+}
     return (
         <div className="app-shell">
             <Menu />
@@ -57,14 +83,19 @@ export default function Settings() {
                         <h2>Profile Settings</h2>
                         <div className="profile">
 
-                            <img 
-                              src={user.profile_picture || "/profile.png"}
-                              className="profile-image"
-                            />
+                            <img
+                        src={selectedFile
+                            ? URL.createObjectURL(selectedFile)
+                            :user.profile_picture || "/profile.png" 
+                            ? `http://88.200.63.148:30170/${user.profile_picture}`
+                            : "/profile.png"}
+                        className="profile-image"/>
 
-                            <button className="change-btn">
-                                Change Photo
-                            </button>
+                            <input
+                                type="file"
+                                accept="image/*"
+                                capture="user"
+                              onChange={handleImageChange} />
                         </div>
 
                         <div className="form-row">
@@ -91,17 +122,17 @@ export default function Settings() {
                         />
 
                         <label>Phone number</label>
-                        <input 
+                        <input
                             value={user.phone || ""}
-                            placeholder="+386"
-                        />
-
+                           onChange={(e)=>
+                            setUser({ ...user, phone:e.target.value })} />
                         <label>Location</label>
-                        <input 
+                        <input
                             value={user.location || ""}
-                        />
+                            onChange={(e)=>
+                                setUser({...user,location:e.target.value})}/>
 
-                        <button className="save-btn">
+                        <button className="save-btn" onClick={saveProfile}>
                             Save Changes
                         </button>
                     </div>

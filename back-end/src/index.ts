@@ -1,7 +1,7 @@
 import "dotenv/config";
 import express, { Request, Response, NextFunction } from "express";
 import cors from "cors";
-
+import path from "path";
 // Routes
 import usersRouter from "./routes/users.routes.js";
 
@@ -33,7 +33,10 @@ app.get("/", (_req: Request, res: Response) => {
 
 // 1. Account and Profile Management
 app.use("/users", usersRouter);
-
+app.use(
+    "/uploads",
+    express.static(path.join(process.cwd(), "uploads"))
+);
 
 
 // Error Handler
@@ -44,16 +47,13 @@ app.use(
     res: Response,
     _next: NextFunction
   ) => {
-
     console.error(error);
-
     res.status(500).json({
       success: false,
       message: "Internal server error",
     });
   }
 );
-
 
 // Start server
 app.listen(port, () => {

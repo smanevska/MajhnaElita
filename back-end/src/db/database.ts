@@ -50,6 +50,7 @@ export async function getUserById(id:number){
             first_name,
             last_name,
             email,
+            password,
             phone,
             location,
             profile_picture
@@ -80,4 +81,17 @@ export async function updateUserProfile(
 
     return result as any;
 }
+
+export async function updatePassword(
+    id:number,
+    newPassword:string
+){  const [result] = await pool.query(
+        `UPDATE user
+        SET password = ?
+        WHERE id = ?`,
+        [newPassword,id]
+    );
+    return result as any;
+}
+
 export default pool;

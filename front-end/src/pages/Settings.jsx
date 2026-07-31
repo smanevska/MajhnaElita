@@ -11,6 +11,7 @@ export default function Settings() {
         location:"",
         profile_picture:""
     });
+    const [passwords,setPasswords] = useState({ currentPassword:"", newPassword:"", confirmPassword:"" });
     const [selectedFile, setSelectedFile] = useState(null);
     useEffect(() =>{
         async function getUser(){
@@ -58,6 +59,23 @@ async function handleImageChange(event) {
     if (!file) return;
     setSelectedFile(file);
 }
+
+async function changePassword(){
+const token = localStorage.getItem("token");
+const response = await fetch(
+"http://88.200.63.148:30170/users/password",
+{
+    method:"PUT",
+    headers:{
+    "Content-Type":"application/json",
+    Authorization:`Bearer ${token}`  },
+body:JSON.stringify(passwords)
+}
+);
+const data = await response.json();
+alert(data.message);
+}
+
     return (
         <div className="app-shell">
             <Menu />
@@ -142,15 +160,30 @@ async function handleImageChange(event) {
                         <h2>Change Password</h2>
 
                         <label>Current Password</label>
-                        <input type="password"/>
+                        <input type="password" value={passwords.currentPassword}
+                            onChange={(e)=>
+                                setPasswords({
+                                ...passwords,
+                            currentPassword:e.target.value})
+                        }/>
 
                         <label>New Password</label>
-                        <input type="password"/>
+                        <input type="password" value={passwords.newPassword}
+                                onChange={(e)=>
+                                    setPasswords({
+                                    ...passwords,
+                            newPassword:e.target.value})
+                        }/>
 
                         <label>Confirm Password</label>
-                        <input type="password"/>
+                        <input type="password" value={passwords.confirmPassword}
+                                onChange={(e)=>
+                                    setPasswords({
+                                    ...passwords,
+                                confirmPassword:e.target.value})
+                        }/>
 
-                        <button className="save-btn">
+                        <button className="save-btn" onClick={changePassword}>
                             Update Password
                         </button>
 

@@ -1,5 +1,5 @@
 import {Request, Response, NextFunction, Router} from "express";
-import {authUser, createUser, getUserById, updateUserProfile} from "../db/database.js";
+import {authUser, createUser, getUserById, updateUserProfile,updatePassword} from "../db/database.js";
 import jwt from "jsonwebtoken";
 import {authenticateToken, AuthRequest} from "../middleware/auth.js";
 import multer from "multer";
@@ -209,9 +209,50 @@ const updateProfile=async (
     }
 };
 
+const changePassword = async (
+    req: AuthRequest,
+    res: Response,
+    next: NextFunction
+) => {
+
+    try{
+        const userId = req.user.id;
+        const {
+            currentPassword,
+            newPassword,
+            confirmPassword
+        } = req.body;
+        const users = await getUserById(userId);
+        const user = users[0];
+        if(currentPassword !== user.password){
+            return res.status(401).json({
+                success:false,
+                message:"Current password is incorrect."
+            });
+        }
+        if(newPassword !== confirmPassword){
+            return res.status(400).json({
+                success:false,
+                message:"Passwords do not match."
+            });
+        }
+        await updatePassword(
+            userId,
+            newPassword
+        );
+        return res.status(200).json({
+            success:true,
+            message:"Password updated successfully."
+        });
+    }catch(error){
+        next(error);
+    }
+};
+
 router.post("/login", loginUser);
 router.post("/register", registerUser);
 router.get("/me", authenticateToken, getCurrentUser);
 router.put("/profile", authenticateToken,upload.single("profile_picture"), updateProfile);
+router.put("/password", authenticateToken,changePassword);
 
 export default router;

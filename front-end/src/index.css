@@ -458,3 +458,159 @@ button:hover{
     border-radius:10px;
 }
 
+
+
+
+
+
+
+
+
+/* main page */
+.item-page {
+  min-height:auto;
+  background:#f7f7fb;
+  display:flex;
+  justify-content:center; 
+  padding:40px;
+}
+
+
+
+
+
+.item-container {
+  width:520px;}
+
+/* Whitr Box */
+.item-card {
+  background:white;
+  width:100%;
+  padding:35px;
+  border-radius:16px;
+  box-shadow:0 4px 14px rgba(0,0,0,0.08);}
+
+.item-card h2 {
+  margin-top:0;
+  margin-bottom:25px;
+}
+
+
+
+
+
+/* labels */
+.item-card label {
+  display:block;
+  font-size:14px;
+  font-weight:600;
+  margin-bottom:6px;
+}
+
+
+
+
+
+/* inputs */
+.item-card input,
+.item-card select,
+.item-card textarea {
+  width:100%;
+  padding:12px;
+  border:1px solid #ddd;
+  border-radius:8px;
+  margin-bottom:15px;
+  font-size:14px;}
+
+.item-card textarea {
+    height:120px;
+    resize:none;
+}
+
+/* buttons */
+.item-buttons {
+  display:flex;
+    gap:15px;
+    margin-top:25px;
+}
+
+.item-buttons button {
+    flex:1;
+    width:auto;
+    padding:12px;
+}
+
+.secondary-btn {
+  background:#eeeaff;
+  color:#6c63ff;
+}
+
+/* steps */
+.wizard {
+    width:auto;
+    margin:0 auto 25px;
+}
+
+.back-dashboard {
+  width:auto;
+  margin-bottom:20px;
+  margin-left:20px;
+}
+
+.steps {
+   display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.circle {
+  width:36px;
+    height:36px;
+    border-radius:50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-weight:bold;
+    background:white;
+    border:2px solid #ddd;
+}
+
+.circle.active {
+  background:#6c63ff;
+  color:white;
+  border:none;
+}
+
+.line {
+   width:60px;
+  height:2px;
+  background:#ddd;
+}
+
+/* type cards */
+.type-buttons {
+    display:flex;
+    gap:15px;
+    margin-bottom:20px;
+}
+
+.type-buttons button {
+  flex:1;
+  background:white;
+  color:#1e1e2f;
+  border:2px solid #ddd;
+}
+
+.type-buttons .selected {
+    background:#f1efff;
+    border-color:#6c63ff;
+    color:#6c63ff;
+}
+
+/* uploading  */
+.upload-box {
+  border:2px dashed #ddd;
+  border-radius:12px;
+  padding:40px;
+  text-align:center;
+}

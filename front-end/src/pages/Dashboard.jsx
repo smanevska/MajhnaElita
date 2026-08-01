@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import Menu from "../components/Menu";
+import {useNavigate} from "react-router";
 //Hardcoded data
 const stats=[
   {icon:"📦", value:"12", label:"Active Items"},
@@ -22,6 +23,7 @@ const wishlist=[
 ];
 
 export default function Dashboard(){
+const navigate = useNavigate();
   useEffect(() => {
   async function getUser(){
     const token = localStorage.getItem("token");
@@ -50,7 +52,7 @@ export default function Dashboard(){
           <div className="actions">
             <button className="icon-btn">🛒</button>
             <button className="icon-btn">🔔</button>
-            <button className="add-btn">+ Add New Item</button>
+            <button className="add-btn" onClick={()=>navigate("/add-item")} >+ Add New Item </button>
           </div>
         </div>
 

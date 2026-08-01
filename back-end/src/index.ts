@@ -4,7 +4,7 @@ import cors from "cors";
 import path from "path";
 // Routes
 import usersRouter from "./routes/users.routes.js";
-
+import itemsRouter from "./routes/items.routes.js";
 
 const app = express();
 
@@ -54,7 +54,7 @@ app.use(
     });
   }
 );
-
+app.use("/items",itemsRouter);
 // Start server
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);

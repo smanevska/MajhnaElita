@@ -7,7 +7,7 @@ const router =Router();
 
 const storage=multer.diskStorage({
     destination(req, file, cb) {
-        cb(null, "uploads/");},
+        cb(null, "uploads/profiles/");},
     filename(req, file, cb) {
         cb(null, Date.now() + "-" +file.originalname);
     }
@@ -186,7 +186,7 @@ const updateProfile=async (
             location
         } = req.body;
         const profile_picture = req.file
-            ? "uploads/" + req.file.filename
+            ? "uploads/profiles/" + req.file.filename
             : "";
         const queryResult=await updateUserProfile(
             userId,

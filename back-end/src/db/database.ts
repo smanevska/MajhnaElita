@@ -94,4 +94,51 @@ export async function updatePassword(
     return result as any;
 }
 
+
+export async function createItem(
+    title:string,
+    description:string,
+    size:string,
+    image:string,
+    gender:string,
+    conditionn:string,
+    age_group:string,
+    item_type_id:number,
+    item_price:number,
+    category:string,
+    location:string,
+    user_id:number
+){
+const [result] = await pool.query(
+    `INSERT INTO item (
+        title,
+        description,
+        size,
+        image,
+        gender,
+        conditionn,
+        age_group,
+        item_type_id,
+        item_price,
+        category,
+        location,
+        user_id,
+        status )
+VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?) `,
+[       title,
+        description,
+        size,
+        image,
+        gender,
+        conditionn,
+        age_group,
+        item_type_id,
+        item_price,
+        category,
+        location,
+        user_id,
+    "published"]);
+return result as any;
+}
+
 export default pool;

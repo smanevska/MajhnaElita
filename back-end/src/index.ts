@@ -29,9 +29,8 @@ app.get("/", (_req: Request, res: Response) => {
 });
 
 
-// API Routes
 
-// 1. Account and Profile Management
+//Account and Profile Management
 app.use("/users", usersRouter);
 app.use(
     "/uploads",
@@ -39,7 +38,7 @@ app.use(
 );
 
 
-// Error Handler
+//Error Handler
 app.use(
   (
     error: unknown,

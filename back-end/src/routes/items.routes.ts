@@ -1,6 +1,6 @@
 import { Router, Request, Response } from "express";
 import multer from "multer";
-import { createItem } from "../db/database.js";
+import { createItem, getItemsByUser } from "../db/database.js";
 import { authenticateToken, AuthRequest } from "../middleware/auth.js";
 const router = Router();
 
@@ -72,5 +72,26 @@ router.post(
         }
     }
 );
+
+router.get(
+    "/my",
+    authenticateToken,
+    async (req: AuthRequest, res: Response) => {
+
+        try {
+            const items = await getItemsByUser(
+                req.user.id
+            );
+            res.json({
+                success: true,
+                items
+            });
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({
+                success: false
+            });
+        }
+    });
 
 export default router;

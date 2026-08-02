@@ -26,6 +26,8 @@ export default function Settings() {
 
             if(data.success){
                 setUser(data.user);
+            }else{
+                setUser(data);
             }
         }
         getUser();
@@ -52,6 +54,7 @@ async function saveProfile(){
     );
     const data = await response.json();
     alert(data.message);
+    window.location.reload();
 }
 
 async function handleImageChange(event) {
@@ -102,11 +105,8 @@ alert(data.message);
                         <div className="profile">
 
                             <img
-                        src={selectedFile
-                            ? URL.createObjectURL(selectedFile)
-                            :user.profile_picture || "/profile.png" 
-                            ? `http://88.200.63.148:30170/${user.profile_picture}`
-                            : "/profile.png"}
+                        src={
+                        selectedFile ?  URL.createObjectURL(selectedFile) : user.profile_picture ?   `http://88.200.63.148:30170/${user.profile_picture}` :  "/profile.png" }
                         className="profile-image"/>
 
                             <input

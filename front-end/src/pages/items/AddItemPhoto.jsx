@@ -3,26 +3,23 @@ import { useNavigate } from "react-router";
 import Steps from "../../components/Steps";
 
 export default function AddItemPhoto() {
-
     const navigate = useNavigate();
     const [image, setImage] = useState(null);
-
     function next() {
-        if (!image) {
-            alert("Please select an image");
-            return;
-        }
-        const reader = new FileReader();
-        reader.onloadend = () => {
-            localStorage.setItem(
-                "itemImage",
-                reader.result
-            );
-            navigate("/add-item/details");
-        };
-        reader.readAsDataURL(image);
+    if (!image) {
+        alert("Please select an image");
+        return;
     }
-
+    const reader = new FileReader();
+    reader.onloadend = () => {
+        sessionStorage.setItem(
+            "itemImage",
+            reader.result
+        );
+        navigate("/add-item/details");
+    };
+    reader.readAsDataURL(image);
+}
     return (
         <div>
             <Steps step={1} />

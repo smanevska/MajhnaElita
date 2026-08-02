@@ -222,7 +222,7 @@ const changePassword = async (
             newPassword,
             confirmPassword
         } = req.body;
-        const users = await getUserById(userId);
+        const users = await getUserById(req.user.id);
         const user = users[0];
         if(currentPassword !== user.password){
             return res.status(401).json({

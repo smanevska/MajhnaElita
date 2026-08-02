@@ -9,6 +9,17 @@ export default function PublishItem(){
 
     async function publish(){
         const form=new FormData();
+        const image = sessionStorage.getItem("itemImage");
+
+            if(image){
+                const blob = await fetch(image).then(r => r.blob());
+
+            form.append(
+                "image",
+                blob,
+                "item-image.png"
+    );
+}
         const details=JSON.parse(
             localStorage.getItem("itemDetails"));
         form.append("title",details.title);

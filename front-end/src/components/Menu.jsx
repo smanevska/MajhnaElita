@@ -3,7 +3,7 @@ import logo from "../assets/Logo.png";
 
 const links = [
   {to:"/dashboard", label:"Dashboard"},
-  {to:"#", label:"My Items"},
+  {to:"/profile", label:"My Items"},
   {to:"#", label:"Messages"},
   {to:"#", label:"Transactions" },
   {to:"/settings", label:"Settings"},

@@ -141,5 +141,16 @@ VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?) `,
 return result as any;
 }
 
+export async function getItemsByUser(userId:number){
+    const [rows] = await pool.query(
+        `SELECT *
+        FROM item
+        WHERE user_id=?
+        ORDER BY id DESC`,
+        [userId]
+    );
+
+    return rows;
+}
 
 export default pool;

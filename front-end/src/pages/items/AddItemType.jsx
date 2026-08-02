@@ -63,13 +63,13 @@ export default function AddItemType() {
                         </button>
 
                     </div>
-                    
-                     {   type === 1 && (
-                            <input
-                                type="number"
-                                placeholder="Selling price (€)"
-                                onChange={(e) => setValue(e.target.value)} />
-                        )
+
+                    {type === 1 && (
+                        <input
+                            type="number"
+                            placeholder="Selling price (€)"
+                            onChange={(e) => setValue(e.target.value)} />
+                    )
                     }
 
                     {
@@ -78,21 +78,21 @@ export default function AddItemType() {
                                 <input
                                     type="number"
                                     placeholder="Rent price per day (€)"
-                                    onChange={(e) => setValue(e.target.value)}/>
+                                    onChange={(e) => setValue(e.target.value)} />
 
                                 <input
                                     type="date"
-                                    onChange={(e) => setDateFrom(e.target.value)}/>
+                                    onChange={(e) => setDateFrom(e.target.value)} />
 
                                 <input
                                     type="date"
-                                    onChange={(e) => setDateTo(e.target.value)}/>
+                                    onChange={(e) => setDateTo(e.target.value)} />
                             </>
                         )}
                     {
                         type === 3 && (
                             <>
-                              <div
+                                <div
                                     style={{
                                         background: "#eef9f1",
                                         color: "#1b8f4d",
@@ -123,4 +123,5 @@ export default function AddItemType() {
             </div>
         </div>
 
-    )}
+    )
+}

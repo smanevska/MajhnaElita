@@ -614,3 +614,232 @@ button:hover{
   padding:40px;
   text-align:center;
 }
+
+
+
+
+
+
+/* PROFILE PAGE */
+
+.profile-page{
+    width:90%;
+    margin:0 auto;
+    padding:30px;
+}
+
+
+/* User information card */
+
+.profile-card{
+    background:white;
+    border-radius:20px;
+    padding:35px;
+    text-align:center;
+    box-shadow:0 5px 20px rgba(0,0,0,0.08);
+}
+
+
+.profile-card img{
+    width:120px;
+    height:120px;
+    border-radius:50%;
+    object-fit:cover;
+    margin-bottom:15px;
+}
+
+
+.profile-card h2{
+    margin:10px 0;
+}
+
+
+.profile-card p{
+    color:#777;
+    margin:8px;
+}
+
+
+/* Rating and points */
+
+.profile-stats{
+    display:flex;
+    justify-content:center;
+    gap:50px;
+    margin:25px 0;
+}
+
+
+.profile-stats div{
+    background:#f7f7fb;
+    padding:15px 25px;
+    border-radius:15px;
+    font-weight:600;
+}
+
+
+
+/* Navigation */
+
+.profile-tabs{
+position:sticky;
+top:0;
+z-index:10;
+display:flex;
+justify-content:center;
+gap:15px;
+background:#f7f7fb;
+padding:20px 0;
+}
+
+
+.profile-tabs button{
+width:auto;
+margin:0;
+padding:12px 25px;
+background:#eeeaff;
+color:#6c63ff;
+border-radius:20px;
+}
+
+
+.profile-tabs button:hover{
+background:#6c63ff;
+color:white;
+}
+
+
+
+/* Sections */
+.profile-page section{
+padding:40px 0;
+}
+
+.profile-page section h2{
+margin-bottom:20px;
+}
+
+
+/* Item cards inside profile */
+.profile-items-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(220px, 1fr));
+    gap:20px;
+}
+.items-grid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:20px;
+}
+
+.profile-page .item-card{
+background:white;
+border-radius:18px;
+overflow:hidden;
+padding:0;
+box-shadow:0 4px 15px rgba(0,0,0,0.08);
+}
+
+.profile-page .item-card img{
+width:100%;
+height:200px;
+object-fit:cover;
+}
+
+.profile-page .item-card h3{
+padding:0 20px;
+margin-top:15px;
+}
+
+.profile-page .item-card p{
+padding:0 20px;
+font-weight:600;
+}
+
+.profile-page .item-card button{
+margin:15px 20px;
+width:calc(100% - 40px);
+}
+
+/* Empty sections */
+.empty{
+background:#f5f5f5;
+padding:40px;
+text-align:center;
+border-radius:15px;
+color:#777;
+}
+
+.profile-page{
+    padding:30px;
+}
+
+.profile-card{
+    background:white;
+    padding:30px;
+    border-radius:20px;
+    text-align:center;
+    margin-bottom:30px;
+}
+
+.profile-card img{
+    width:120px;
+    height:120px;
+    border-radius:50%;
+    object-fit:cover;
+}
+
+.items-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:25px;
+}
+.item-info {
+    padding: 15px;
+}
+.profile-item-card{
+    background:white;
+    border-radius:18px;
+    overflow:hidden;
+    box-shadow:0 5px 20px #ddd;
+}
+
+
+.profile-item-card img{
+    width:100%;
+    height:220px;
+    object-fit:cover;
+}
+
+
+.profile-item-info{
+    padding:18px;
+}
+
+.profile-item-info h3{
+    margin:0 0 10px;
+}
+
+.price{
+    color:#6c63ff;
+    font-size:18px;
+    font-weight:bold;
+}
+
+.donation-label{
+    color:#1b8f4d;
+    background:#eafaf0;
+    padding:8px;
+    border-radius:10px;
+    display:inline-block;}
+
+.donation-message{
+    background:#eef9f1;
+    color:#1b8f4d;
+    border:1px solid #bde5c8;
+    border-radius:8px;
+    padding:12px;
+    margin-bottom:15px;
+    text-align:center;
+    font-weight:600;
+}

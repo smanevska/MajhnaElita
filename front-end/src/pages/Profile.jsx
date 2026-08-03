@@ -50,7 +50,21 @@ export default function Profile() {
         return `${API_URL}/${path}`;
     }
 
-    function ItemCard({ item, donation = false }) {
+    //delete item card function
+    async function deleteMyItem(id){
+    const confirmDelete=window.confirm("Do you want to delete this item?")
+    if (!confirmDelete)return;
+    const response=await authFetch(
+        `/items/${id}`,
+        {method:"DELETE"}
+    );
+    const data =await response.json();
+    if (data.success){
+        setItems(items.filter(item=>item.id!==id));
+    }
+}
+
+    function ItemCard({ item, donation = false,myItem=false }) {
         return (
             <div className="profile-item-card">
                 <img
@@ -80,16 +94,18 @@ export default function Profile() {
                                 }
                             </p>
                     }
+                    {myItem && (<button className="delete-btn" 
+                                        onClick={()=>deleteMyItem(item.id)}>Delete</button>)}
                 </div>
             </div>
   ); }
-
     const listings = items.filter(
         item => Number(item.item_type_id) !== 3
     );
     const donations = items.filter(
         item => Number(item.item_type_id) === 3
     );
+
 return (
     <div className="app-shell">
         <Menu />
@@ -153,6 +169,8 @@ return (
                                 <ItemCard
                                     key={item.id}
                                     item={item}
+                                    myItem={true}
+                                   
                                 />
                             ))
                         ) : (
@@ -172,6 +190,7 @@ return (
                                     key={item.id}
                                     item={item}
                                     donation={true}
+                                    myItem={true}
                                 />
                             ))
                         ) : (

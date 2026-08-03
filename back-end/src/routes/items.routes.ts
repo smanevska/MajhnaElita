@@ -1,6 +1,6 @@
 import { Router, Request, Response } from "express";
 import multer from "multer";
-import { createItem, getItemsByUser,deleteItem } from "../db/database.js";
+import { createItem, getItemsByUser,getPublishedItems,deleteItem } from "../db/database.js";
 import { authenticateToken, AuthRequest } from "../middleware/auth.js";
 const router = Router();
 
@@ -118,5 +118,21 @@ router.delete("/:id",
         });
     }
 });
-
+router.get(
+    "/",
+    async (req, res) => {
+        try {
+            const items = await getPublishedItems();
+            res.json({
+                success: true,
+                items
+            });
+        }catch (error) {
+            console.log(error);
+            res.status(500).json({
+                success: false,
+                message: "Cannot load items"
+            });
+        }
+});
 export default router;

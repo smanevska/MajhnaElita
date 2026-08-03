@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect,useState} from "react";
 import Menu from "../components/Menu";
 import {useNavigate} from "react-router";
 //Hardcoded data
@@ -15,15 +15,9 @@ const leaderboard=[
   {name:"Michael Richmond", tag:"Helper", pts:"870 pts"}
 ];
 
-const wishlist=[ 
-  {name:"Books", price:"€15", tag:"Sale"},
-  {name:"Baby girl dress", price:"€15", tag:"Sale"},
-  {name:"Princess costume", price:"€22", tag:"Sale"},
-  {name:"Kids books", price:"Free", tag:"Donation"}
-];
-
 export default function Dashboard(){
 const navigate = useNavigate();
+const [items,setItems]=useState([]);
   useEffect(() => {
   async function getUser(){
     const token = localStorage.getItem("token");
@@ -41,6 +35,20 @@ const navigate = useNavigate();
   getUser();
 }, []);
 
+useEffect(()=>{
+  async function getPublishedItems(){
+    try{
+      const response=await fetch("http://88.200.63.148:30170/items");
+      const data= await response.json();
+      if (data.success){
+        setItems(data.items);
+      }
+    }catch(error){
+      console.log("Error in loading items: ",error);
+    }
+  }
+  getPublishedItems();
+},[]);
 
   return(
     <div className="app-shell">
@@ -82,21 +90,21 @@ const navigate = useNavigate();
         </div>
 
         <div className="panel">
-          <h3>My wishlist</h3>
-          <div className="wishlist-grid">
-            {wishlist.map((item) => (
-              <div className="wishlist-card" key={item.name}>
-                <div className="thumb">
-                  <div className="heart">♡</div>
-                </div>
-                <div className="info">
-                  <span>{item.name}</span>
-                  <span>{item.price}</span>
-                </div>
+          <h3>Published Items</h3>
+          <div className="profile-items-grid"> 
+            {items.length>0 ? items.map(item=>(<div className="profile-item-card" key={item.id}>
+              <img src={`http://88.200.63.148:30170/${item.image}`}alt={item.title}/>
+              <div className="item-info">
+                <h3>{item.title}</h3>
+                {Number(item.item_type_id)===3 ? <span className="donation-label">Donation</span> : <p>€{item.item_price}</p>}
               </div>
-            ))}
+            </div>))
+            :
+            <div className="empty"> No published items yet </div>}
           </div>
         </div>
+
+
       </div>
     </div>
   );

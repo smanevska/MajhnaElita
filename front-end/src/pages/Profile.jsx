@@ -155,7 +155,7 @@ return (
                     </button>
 
                     <button onClick={() => wishlistRef.current.scrollIntoView({ behavior: "smooth" })}>
-                        Transactions
+                        Wishlist
                     </button>
                 </div>
 

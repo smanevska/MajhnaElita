@@ -152,6 +152,18 @@ export async function getItemsByUser(userId:number){
 
     return rows;
 }
+
+export async function getPublishedItems(){
+    const [rows] = await pool.query(
+        `SELECT *
+        FROM item
+        WHERE status='published'
+        ORDER BY id DESC
+        LIMIT 20`
+    );
+    return rows;
+}
+
 export async function deleteItem(
     itemId:number,
     userId:number
@@ -164,5 +176,6 @@ export async function deleteItem(
     );
     return result as any;
 }
+
 
 export default pool;

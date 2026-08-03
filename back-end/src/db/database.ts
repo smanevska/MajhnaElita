@@ -152,5 +152,17 @@ export async function getItemsByUser(userId:number){
 
     return rows;
 }
+export async function deleteItem(
+    itemId:number,
+    userId:number
+){
+    const [result]=await pool.query(
+        `DELETE FROM item 
+        WHERE id=?
+        AND user_id=?`,
+        [itemId,userId]
+    );
+    return result as any;
+}
 
 export default pool;

@@ -118,7 +118,7 @@ const registerUser = async (
             });
         }
 
-        //nsert user into database
+        //insert user into database
         const queryResult =await createUser(
             first_name,
             last_name,
@@ -126,7 +126,7 @@ const registerUser = async (
             password,
 
         );
-        // 6. Registration successful
+        //Registration successful
         if (queryResult.affectedRows === 1) {
             return res.status(201).json({
                 success: true,

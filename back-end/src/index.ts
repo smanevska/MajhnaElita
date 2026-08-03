@@ -2,12 +2,11 @@ import "dotenv/config";
 import express, { Request, Response, NextFunction } from "express";
 import cors from "cors";
 import path from "path";
-// Routes
+//Routes
 import usersRouter from "./routes/users.routes.js";
 import itemsRouter from "./routes/items.routes.js";
 
 const app = express();
-
 const port = Number(process.env.PORT) || 30170;
 
 // Middleware

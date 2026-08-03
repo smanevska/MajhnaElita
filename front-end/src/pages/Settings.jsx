@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import Menu from "../components/Menu";
-
+import {useNavigate} from "react-router";
 export default function Settings() {
-
+const navigate = useNavigate();
     const [user, setUser] = useState({
         first_name:"",
         last_name:"",
@@ -93,9 +93,7 @@ alert(data.message);
                     <div className="actions">
                         <button className="icon-btn">🛒</button>
                         <button className="icon-btn">🔔</button>
-                        <button className="add-btn">
-                            + Add New Item
-                        </button>
+                        <button className="add-btn" onClick={()=>navigate("/add-item")} >+ Add New Item </button>
                     </div>
                 </div>
 

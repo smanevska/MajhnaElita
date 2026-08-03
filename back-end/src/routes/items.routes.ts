@@ -1,6 +1,6 @@
 import { Router, Request, Response } from "express";
 import multer from "multer";
-import { createItem, getItemsByUser } from "../db/database.js";
+import { createItem, getItemsByUser,deleteItem } from "../db/database.js";
 import { authenticateToken, AuthRequest } from "../middleware/auth.js";
 const router = Router();
 
@@ -93,5 +93,30 @@ router.get(
             });
         }
     });
+
+router.delete("/:id",
+    authenticateToken,
+    async(req:AuthRequest,res)=>{
+        try{
+            const itemId=Number(req.params.id);
+            const result=await deleteItem(itemId, req.user.id);
+
+        if(result.affect===0){
+            return res.status(403).json({
+                success:false,
+                message:"You cannot delete this item"
+            }); 
+           }
+
+        res.json({
+            success:true,
+            message:"Item was deleted"
+        });
+    }catch(error){
+        resizeBy.status(500).json({
+            success:false
+        });
+    }
+});
 
 export default router;

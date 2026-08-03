@@ -11,13 +11,14 @@ export default function Profile() {
         email:"",
         location:"",
         profile_picture:""  });
+        
 
     const [items, setItems] = useState([]);
 
     const listingRef = useRef();
     const donationRef = useRef();
     const reviewRef = useRef();
-    const transactionRef = useRef();
+    const wishlistRef = useRef();
 
     useEffect(() => {
         async function loadProfile() {
@@ -97,12 +98,12 @@ return (
             <div className="profile-page">
                 {/* Profile Header */}
                 <div className="profile-card">
-                    {user.profile_picture && (
                     <img
                         className="profile-avatar"
-                        src={`${API_URL}/${user.profile_picture}`}
-                        alt="profile"
-                        />)}
+                        src={
+                        user.profile_picture
+                        ? `${API_URL}/${user.profile_picture}`
+                        : "/profile.png"} />
 
                     <h2>{user.first_name} {user.last_name}</h2>
                     <p>📧 {user.email}</p>
@@ -137,7 +138,7 @@ return (
                         Reviews
                     </button>
 
-                    <button onClick={() => transactionRef.current.scrollIntoView({ behavior: "smooth" })}>
+                    <button onClick={() => wishlistRef.current.scrollIntoView({ behavior: "smooth" })}>
                         Transactions
                     </button>
                 </div>
@@ -185,10 +186,10 @@ return (
                     <div className="empty">No reviews yet</div>
                 </section>
 
-                {/* Transactions */}
-                <section ref={transactionRef}>
-                    <h2>Transactions</h2>
-                    <div className="empty">No transactions yet</div>
+                {/* Wishlist */}
+                <section ref={wishlistRef}>
+                    <h2>Wishlist</h2>
+                    <div className="empty">No wishlist yet</div>
                 </section>
             </div>
         </div>

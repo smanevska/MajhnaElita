@@ -64,7 +64,6 @@ export default function UserProfile() {
                     <h3>
                         {item.title}
                     </h3>
-
                     {
                         donation
                             ?
@@ -72,25 +71,32 @@ export default function UserProfile() {
                                  Donation
                             </span>
                             :
-                            <p>
-                                {
-                                    item.item_type_id === 2
-                                        ?
-                                        `€${item.item_price}/day`
-                                        :
-                                        `€${item.item_price}`
-                                }
+                            <div>
+                            <p> {Number(item.item_type_id) === 2
+                            ?
+                            `€${item.item_price}/day`
+                            :
+                            `€${item.item_price}`}
                             </p>
+
+                    { Number(item.item_type_id) === 2 && item.rental_start && item.rental_end &&( <small> Available:<br/>  {formatDate(item.rental_start)} - {formatDate(item.rental_end)} </small>
+                    )}
+                    </div>
                     }
                     </div>
             </div>
-  ); }
-    const listings = items.filter(
-        item => Number(item.item_type_id) !== 3
-    );
-    const donations = items.filter(
-        item => Number(item.item_type_id) === 3
-    );
+); }
+        const listings = items.filter(
+            item => Number(item.item_type_id) !== 3
+        );
+        const donations = items.filter(
+            item => Number(item.item_type_id) === 3
+        );
+    function formatDate(date) {
+        if (!date) return "";
+        return new Date(date).toLocaleDateString("en-CA");
+}
+
 
 return (
     <div className="app-shell">

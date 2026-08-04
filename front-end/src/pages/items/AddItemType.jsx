@@ -24,11 +24,11 @@ export default function AddItemType() {
             value || 0
         );
         localStorage.setItem(
-            "rentFrom",
+            "rental_start",
             dateFrom
         );
         localStorage.setItem(
-            "rentTo",
+            "rental_end",
             dateTo
         );
         navigate("/add-item/location");

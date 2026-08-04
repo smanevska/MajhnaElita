@@ -7,7 +7,10 @@ const navigate = useNavigate();
 const [items,setItems]=useState([]);
 const [currentUser,setCurrentUser]=useState(null);
 const [leaderboard, setLeaderboard] = useState([]);
-
+function formatDate(date) {
+  if (!date) return "";
+  return new Date(date).toLocaleDateString("en-CA");
+}
 const stats=[
   {icon:"📦", value:items.length, label:"Active Items"},
   {icon:"⏱", value:"3", label:"Active Rentals"},
@@ -144,8 +147,21 @@ useEffect(() => {
               <img src={`http://88.200.63.148:30170/${item.image}`}alt={item.title}/>
               <div className="item-info">
                 <h3>{item.title}</h3>
-                {Number(item.item_type_id)===3 ? <span className="donation-label">Donation</span> : <p>€{item.item_price}</p>}
-              </div>
+                {Number(item.item_type_id) === 3 ?
+                  <span className="donation-label">Donation</span>
+                  :
+                    Number(item.item_type_id) === 2
+                  ?
+                  <>
+                  <p>€{item.item_price}/day</p>
+                  {item.rental_start && item.rental_end && (
+                <small> Available: <br/> {formatDate(item.rental_start)}{" - "}{formatDate(item.rental_end)}</small>
+                )}
+                </>
+                :
+                <p>€{item.item_price}</p>
+              }     
+                </div>
             </div>))
             :
             <div className="empty"> No published items yet </div>}

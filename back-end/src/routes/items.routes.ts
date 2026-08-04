@@ -34,7 +34,9 @@ router.post(
                 item_type_id,
                 item_price,
                 category,
-                location
+                location,
+                rental_start,
+                rental_end
             } = req.body;
 
             //saved image path if the user uploaded an image
@@ -54,7 +56,9 @@ router.post(
                 item_price ? Number(item_price) : null,
                 category,
                 location,
-                userId
+                userId,
+                rental_start || null,
+                rental_end || null
             );
             const itemId = result.insertId;
             // If item is a donation give 2 points

@@ -91,15 +91,17 @@ export default function Profile() {
                                  Donation
                             </span>
                             :
-                            <p>
-                                {
-                                    Number(item.item_type_id) === 2
-                                        ?
-                                        `€${item.item_price}/day`
-                                        :
-                                        `€${item.item_price}`
-                                }
+                        <div>
+                            <p> {Number(item.item_type_id) === 2
+                            ?
+                            `€${item.item_price}/day`
+                            :
+                            `€${item.item_price}`}
                             </p>
+
+                    { Number(item.item_type_id) === 2 && item.rental_start && item.rental_end &&( <small> Available:<br/>  {formatDate(item.rental_start)} - {formatDate(item.rental_end)} </small>
+                    )}
+                    </div>
                     }
                     {myItem && (<button className="delete-btn" 
                                         onClick={()=>deleteMyItem(item.id)}>Delete</button>)}
@@ -111,6 +113,10 @@ export default function Profile() {
     const donations = items.filter(
         item => Number(item.item_type_id) === 3);
 
+    function formatDate(date) {
+        if (!date) return "";
+    return new Date(date).toLocaleDateString("en-CA");
+    }
 return (
     <div className="app-shell">
         <Menu />

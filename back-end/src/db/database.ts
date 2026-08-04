@@ -108,7 +108,9 @@ export async function createItem(
     item_price:number,
     category:string,
     location:string,
-    user_id:number
+    user_id:number,
+    rental_start:string | null,
+    rental_end:string | null
 ){
 const [result] = await pool.query(
     `INSERT INTO item (
@@ -124,8 +126,10 @@ const [result] = await pool.query(
         category,
         location,
         user_id,
-        status )
-VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?) `,
+        status,
+        rental_start,
+        rental_end )
+VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) `,
 [       title,
         description,
         size,
@@ -138,7 +142,9 @@ VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?) `,
         category,
         location,
         user_id,
-    "published"]);
+    "published",
+    rental_start,
+    rental_end]);
 return result as any;
 }
 

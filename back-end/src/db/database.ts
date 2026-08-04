@@ -43,6 +43,215 @@ export async function createUser(
     return result as any;
 }
 
+export async function getUserById(id:number){
+    const [rows] = await pool.query(
+        `SELECT
+            id,
+            first_name,
+            last_name,
+            email,
+            password,
+            phone,
+            location,
+            profile_picture,
+            points
+        FROM user
+        WHERE id = ? `,
+        [id]
+    );
+    return rows as any[];
+}
+export async function updateUserProfile(
+    id: number,
+    phone: string,
+    location: string,
+    profile_picture: string
+){
+    const [result] = await pool.query(
+        `UPDATE user
+        SET
+            phone = ?,
+            location = ?,
+            profile_picture = ?
+        WHERE id = ?`,
+           [ phone,
+            location,
+            profile_picture,
+            id  ]
+    );
 
+    return result as any;
+}
+
+export async function updatePassword(
+    id:number,
+    newPassword:string
+){  const [result] = await pool.query(
+        `UPDATE user
+        SET password = ?
+        WHERE id = ?`,
+        [newPassword,id]
+    );
+    return result as any;
+}
+
+
+export async function createItem(
+    title:string,
+    description:string,
+    size:string,
+    image:string,
+    gender:string,
+    conditionn:string,
+    age_group:string,
+    item_type_id:number,
+    item_price:number,
+    category:string,
+    location:string,
+    user_id:number
+){
+const [result] = await pool.query(
+    `INSERT INTO item (
+        title,
+        description,
+        size,
+        image,
+        gender,
+        conditionn,
+        age_group,
+        item_type_id,
+        item_price,
+        category,
+        location,
+        user_id,
+        status )
+VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?) `,
+[       title,
+        description,
+        size,
+        image,
+        gender,
+        conditionn,
+        age_group,
+        item_type_id,
+        item_price,
+        category,
+        location,
+        user_id,
+    "published"]);
+return result as any;
+}
+
+export async function getItemsByUser(userId:number){
+    const [rows] = await pool.query(
+        `SELECT *
+        FROM item
+        WHERE user_id=?
+        ORDER BY id DESC`,
+        [userId]
+    );
+
+    return rows;
+}
+export async function getItemsByUserId(userId:number){
+    const [rows] = await pool.query(
+        `SELECT *
+        FROM item
+        WHERE user_id = ?
+        AND status='published'
+        ORDER BY id DESC`,
+        [userId]
+    );
+    return rows as any[];
+}
+
+export async function getPublishedItems(){
+    const [rows] = await pool.query(
+        `SELECT *
+        FROM item
+        WHERE status='published'
+        ORDER BY id DESC
+        LIMIT 20`
+    );
+    return rows;
+}
+
+export async function deleteItem(
+    itemId:number,
+    userId:number
+){
+    const [result]=await pool.query(
+        `DELETE FROM item 
+        WHERE id=?
+        AND user_id=?`,
+        [itemId,userId]
+    );
+    return result as any;
+}
+export async function createDonation(
+    user_id:number,
+    item_id:number,
+    points:number
+){
+    const [result]=await pool.query(
+        `INSERT INTO donation(user_id, item_id,points_awarded)
+        VALUES(?,?,?)`,
+        [user_id,item_id, points]
+    );
+    return result as any;
+}
+
+export async function addUserPoints(
+    user_id:number,
+    points:number
+){
+    const [result]=await pool.query(
+        `UPDATE user
+        SET points=points + ?
+        WHERE id=?`,
+        [points, user_id]
+    );
+    return result as any;
+}
+
+export async function getLeaderboard() {
+    const [rows] = await pool.query(
+       `SELECT
+            id,
+            first_name,
+            last_name,
+            profile_picture,
+            points
+        FROM user
+        ORDER BY points DESC
+        LIMIT 3`
+    );
+    return rows as any[];
+}
+
+export async function getDonationByItemId(item_id:number){
+    const [rows] = await pool.query(
+        `SELECT 
+            user_id,
+            points_awarded
+        FROM donation
+        WHERE item_id=?`,
+        [item_id]
+    );
+    return rows as any[];
+}
+
+export async function removeUserPoints(
+    user_id:number,
+    points:number
+){
+    const [result] = await pool.query(
+        `UPDATE user
+        SET points =GREATEST(points - ?, 0)
+        WHERE id=?`,
+        [points,user_id]
+    );
+    return result as any;
+}
 
 export default pool;

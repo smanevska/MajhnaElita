@@ -1,13 +1,12 @@
 import "dotenv/config";
 import express, { Request, Response, NextFunction } from "express";
 import cors from "cors";
-
-// Routes
+import path from "path";
+//Routes
 import usersRouter from "./routes/users.routes.js";
-
+import itemsRouter from "./routes/items.routes.js";
 
 const app = express();
-
 const port = Number(process.env.PORT) || 30170;
 
 // Middleware
@@ -29,14 +28,16 @@ app.get("/", (_req: Request, res: Response) => {
 });
 
 
-// API Routes
 
-// 1. Account and Profile Management
+//Account and Profile Management
 app.use("/users", usersRouter);
+app.use(
+    "/uploads",
+    express.static(path.join(process.cwd(), "uploads"))
+);
 
 
-
-// Error Handler
+//Error Handler
 app.use(
   (
     error: unknown,
@@ -44,17 +45,14 @@ app.use(
     res: Response,
     _next: NextFunction
   ) => {
-
     console.error(error);
-
     res.status(500).json({
       success: false,
       message: "Internal server error",
     });
   }
 );
-
-
+app.use("/items",itemsRouter);
 // Start server
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);

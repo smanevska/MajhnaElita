@@ -1,29 +1,47 @@
 import { useState} from "react";
 import {useNavigate, Link} from "react-router";
 import logo from "../assets/Logo.png";
+import {apiFetch} from "../api/api";
 
 export default function Login() {
   const navigate = useNavigate();
   const [data, setData] = useState({ email: "", password: "" });// Stores login form values
-//Updates the input value when the user types
+  const [error,setError] = useState("");
+  const [loading,setLoading] = useState(false);
+  //Updates the input value when the user types
   function change(e) {
     setData({ ...data, [e.target.name]: e.target.value });
   }
 //Sends login data to the backend
-  async function login() {
-    const response = await fetch("http://88.200.63.148:30170/users/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    });
-
-    const result = await response.json();// Convert response from backend into JavaScript object
-
-    if (result.success) {
-      localStorage.setItem("user", JSON.stringify(result.user));
-      navigate("/dashboard");//redirect user to dashboard page
+ async function login(){
+    setError("");
+    if(!data.email || !data.password){
+        setError("Email and password are required.");
+        return;
     }
-  }
+    try{
+        setLoading(true);
+        const response = await apiFetch("/users/login",{
+            method:"POST",
+            body:JSON.stringify(data)
+        });
+        const result = await response.json();
+        if(result.success){
+            localStorage.setItem(
+                "token",
+                result.token
+            );
+            navigate("/dashboard");
+        }else{
+            setError(result.message);
+        }
+    }catch(error){
+        setError("Cannot connect to server.");
+    }
+    finally{
+        setLoading(false);
+    }
+}
 
   return (
     <div className="auth-container">

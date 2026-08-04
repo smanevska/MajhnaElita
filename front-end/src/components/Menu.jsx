@@ -3,10 +3,10 @@ import logo from "../assets/Logo.png";
 
 const links = [
   {to:"/dashboard", label:"Dashboard"},
-  {to:"#", label:"My Items"},
+  {to:"/profile", label:"My Items"},
   {to:"#", label:"Messages"},
-  {to:"#", label:"Transactions" },
-  {to:"#", label:"Settings"},
+//  {to:"#", label:"Transactions" },
+  {to:"/settings", label:"Settings"},
 ];
 
 export default function Menu(){
@@ -32,7 +32,7 @@ export default function Menu(){
       <button
         className="logout"
         onClick={() =>{
-          localStorage.removeItem("user");
+          localStorage.removeItem("token");
           window.location.href="/login";    
           }} >
         Log Out

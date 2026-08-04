@@ -142,13 +142,20 @@ button:hover{
 
 /*Sidebar*/
 .menu{
-  width: 240px;
-  min-height: 100vh;
-  background: white;
-  padding: 24px 18px;
-  display: flex;
+  width:240px;
+  height:100vh;
+  background:white;
+
+  position:fixed;
+  top:0;
+  left:0;
+
+  padding:24px 18px;
+  box-sizing:border-box;
+  display:flex;
   flex-direction:column;
-  border-right: 1px solid #eee;
+  border-right:1px solid #eee;
+  z-index:1000;
 }
 
 .menu .brand{
@@ -213,8 +220,9 @@ button:hover{
 
 /*Main area*/
 .main-area{
-  flex: 1;
-  padding: 28px 36px;
+  flex:1;
+  margin-left:240px;
+  padding:28px 36px;
 }
 /*top bar*/
 .topbar{
@@ -389,4 +397,475 @@ button:hover{
 .wishlist-card .info span{
   font-size:13px;
   font-weight:600;
+}
+
+/*Settings*/
+.settings-container{
+    width:100%;
+    padding:30px;
+}
+
+.settings-card{
+    background:white;
+    border-radius:12px;
+    padding:25px;
+    margin-bottom:20px;
+    width:100%;
+}
+
+.settings-card h2{
+    margin-bottom:20px;
+}
+.profile{
+    display:flex;
+    align-items:center;
+    gap:20px;
+}
+
+.profile-image{
+    width:60px;
+    height:60px;
+    border-radius:50%;
+    object-fit:cover;
+}
+
+.form-row{
+    display:flex;
+    gap:20px;
+}
+
+.form-row div{
+    width:50%;
+}
+
+.settings-card label{
+    display:block;
+    margin-top:15px;
+    font-size:14px;
+}
+.settings-card input{
+    width:100%;
+    padding:10px;
+    border:1px solid #ddd;
+    border-radius:8px;
+}
+
+.save-btn{
+    margin-top:20px;
+    background:#6c5ce7;
+    color:white;
+    border:none;
+    padding:10px 20px;
+    border-radius:8px;
+}
+.payment{
+    display:flex;
+    justify-content:space-between;
+    background:#f5f5f5;
+    padding:15px;
+    border-radius:10px;
+}
+
+
+
+
+
+
+
+
+
+/* main page */
+.item-page {
+  min-height:auto;
+  background:#f7f7fb;
+  display:flex;
+  justify-content:center; 
+  padding:40px;
+}
+
+
+
+
+
+.item-container {
+  width:520px;}
+
+/* Whitr Box */
+.item-card {
+  background:white;
+  width:100%;
+  padding:35px;
+  border-radius:16px;
+  box-shadow:0 4px 14px rgba(0,0,0,0.08);}
+
+.item-card h2 {
+  margin-top:0;
+  margin-bottom:25px;
+}
+
+
+
+
+
+/* labels */
+.item-card label {
+  display:block;
+  font-size:14px;
+  font-weight:600;
+  margin-bottom:6px;
+}
+
+
+
+
+
+/* inputs */
+.item-card input,
+.item-card select,
+.item-card textarea {
+  width:100%;
+  padding:12px;
+  border:1px solid #ddd;
+  border-radius:8px;
+  margin-bottom:15px;
+  font-size:14px;}
+
+.item-card textarea {
+    height:120px;
+    resize:none;
+}
+
+/* buttons */
+.item-buttons {
+  display:flex;
+    gap:15px;
+    margin-top:25px;
+}
+
+.item-buttons button {
+    flex:1;
+    width:auto;
+    padding:12px;
+}
+
+.secondary-btn {
+  background:#eeeaff;
+  color:#6c63ff;
+}
+
+/* steps */
+.wizard {
+    width:auto;
+    margin:0 auto 25px;
+}
+
+.back-dashboard {
+  width:auto;
+  margin-bottom:20px;
+  margin-left:20px;
+}
+
+.steps {
+   display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.circle {
+  width:36px;
+    height:36px;
+    border-radius:50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-weight:bold;
+    background:white;
+    border:2px solid #ddd;
+}
+
+.circle.active {
+  background:#6c63ff;
+  color:white;
+  border:none;
+}
+
+.line {
+   width:60px;
+  height:2px;
+  background:#ddd;
+}
+
+/* type cards */
+.type-buttons {
+    display:flex;
+    gap:15px;
+    margin-bottom:20px;
+}
+
+.type-buttons button {
+  flex:1;
+  background:white;
+  color:#1e1e2f;
+  border:2px solid #ddd;
+}
+
+.type-buttons .selected {
+    background:#f1efff;
+    border-color:#6c63ff;
+    color:#6c63ff;
+}
+
+/* uploading  */
+.upload-box {
+  border:2px dashed #ddd;
+  border-radius:12px;
+  padding:40px;
+  text-align:center;
+}
+
+
+
+
+
+
+/* PROFILE PAGE */
+
+.profile-page{
+    width:90%;
+    margin:0 auto;
+    padding:30px;
+}
+
+
+/* User information card */
+
+.profile-card{
+    background:white;
+    border-radius:20px;
+    padding:35px;
+    text-align:center;
+    box-shadow:0 5px 20px rgba(0,0,0,0.08);
+}
+
+
+.profile-card img{
+    width:120px;
+    height:120px;
+    border-radius:50%;
+    object-fit:cover;
+    margin-bottom:15px;
+}
+
+
+.profile-card h2{
+    margin:10px 0;
+}
+
+
+.profile-card p{
+    color:#777;
+    margin:8px;
+}
+
+
+/* Rating and points */
+
+.profile-stats{
+    display:flex;
+    justify-content:center;
+    gap:50px;
+    margin:25px 0;
+}
+
+
+.profile-stats div{
+    background:#f7f7fb;
+    padding:15px 25px;
+    border-radius:15px;
+    font-weight:600;
+}
+
+
+
+/* Navigation */
+
+.profile-tabs{
+position:sticky;
+top:0;
+z-index:10;
+display:flex;
+justify-content:center;
+gap:15px;
+background:#f7f7fb;
+padding:20px 0;
+}
+
+
+.profile-tabs button{
+width:auto;
+margin:0;
+padding:12px 25px;
+background:#eeeaff;
+color:#6c63ff;
+border-radius:20px;
+}
+
+
+.profile-tabs button:hover{
+background:#6c63ff;
+color:white;
+}
+
+
+
+/* Sections */
+.profile-page section{
+padding:40px 0;
+}
+
+.profile-page section h2{
+margin-bottom:20px;
+}
+
+
+/* Item cards inside profile */
+.profile-items-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(220px, 1fr));
+    gap:20px;
+}
+.items-grid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:20px;
+}
+
+.profile-page .item-card{
+background:white;
+border-radius:18px;
+overflow:hidden;
+padding:0;
+box-shadow:0 4px 15px rgba(0,0,0,0.08);
+}
+
+.profile-page .item-card img{
+width:100%;
+height:200px;
+object-fit:cover;
+}
+
+.profile-page .item-card h3{
+padding:0 20px;
+margin-top:15px;
+}
+
+.profile-page .item-card p{
+padding:0 20px;
+font-weight:600;
+}
+
+.profile-page .item-card button{
+margin:15px 20px;
+width:calc(100% - 40px);
+}
+
+/* Empty sections */
+.empty{
+background:#f5f5f5;
+padding:40px;
+text-align:center;
+border-radius:15px;
+color:#777;
+}
+
+.profile-card{
+    background:white;
+    padding:30px;
+    border-radius:20px;
+    text-align:center;
+    margin-bottom:30px;
+}
+
+.profile-card img{
+    width:120px;
+    height:120px;
+    border-radius:50%;
+    object-fit:cover;
+}
+
+.items-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:25px;
+}
+.item-info {
+    padding: 15px;
+}
+.profile-item-card{
+   position: relative;
+    background:white;
+    border-radius:18px;
+    overflow:hidden;
+    box-shadow:0 5px 20px #ddd;
+    cursor: pointer;
+}
+
+
+.profile-item-card img{
+    width:100%;
+    height:220px;
+    object-fit:cover;
+}
+
+
+.profile-item-info{
+    padding:15px;
+}
+
+.profile-item-info h3{
+    margin:0 0 10px;
+}
+
+.price{
+    color:#6c63ff;
+    font-size:18px;
+    font-weight:bold;
+}
+
+.donation-label{
+    color:#1b8f4d;
+    background:#eafaf0;
+    padding:8px;
+    border-radius:10px;
+    display:inline-block;}
+
+.donation-message{
+    background:#eef9f1;
+    color:#1b8f4d;
+    border:1px solid #bde5c8;
+    border-radius:8px;
+    padding:12px;
+    margin-bottom:15px;
+    text-align:center;
+    font-weight:600;
+}
+.delete-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: auto;
+    height: auto;
+    background: black;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 4px 10px;
+    font-size: 12px;
+    display: inline-block;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.delete-btn:hover {
+    background: #333;
 }

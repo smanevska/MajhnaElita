@@ -11,6 +11,8 @@ import AddItemType from "../pages/items/AddItemType";
 import AddItemLocation from "../pages/items/AddItemLocation";
 import PublishItem from "../pages/items/PublishItem";
 import Profile from "../pages/Profile";
+import UserProfile from "../pages/UserProfile";
+
 export default function AppRouter(){
     return (
         <BrowserRouter>
@@ -25,6 +27,7 @@ export default function AppRouter(){
             <Route path="/add-item/location" element={<AddItemLocation/>}/>
             <Route path="/add-item/publish" element={<PublishItem/>}/>
             <Route path="/profile" element={<Profile/>}/>
+            <Route path="/user-profile/:id" element={<UserProfile />} />
             <Route path="*"  element={<Navigate to="/" />}/>
         </Routes>
         </BrowserRouter>

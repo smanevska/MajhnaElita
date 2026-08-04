@@ -1,5 +1,5 @@
 import {Request, Response, NextFunction, Router} from "express";
-import {authUser, createUser, getUserById, updateUserProfile,updatePassword} from "../db/database.js";
+import {authUser, createUser, getUserById, updateUserProfile,updatePassword,getLeaderboard} from "../db/database.js";
 import jwt from "jsonwebtoken";
 import {authenticateToken, AuthRequest} from "../middleware/auth.js";
 import multer from "multer";
@@ -249,9 +249,54 @@ const changePassword = async (
     }
 };
 
+
+//Public user profile
+const getUserProfileById = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    try {
+        const userId = Number(req.params.id);
+        const queryResult = await getUserById(userId);
+        if (queryResult.length === 0) {
+            return res.status(404).json({
+                success:false,
+                message:"User not found."
+            });
+        }
+        return res.status(200).json({
+            success:true,
+            user:queryResult[0]
+        });
+    } catch(error) {
+        next(error);
+    }
+};
+
+const Leaderboard = async (
+    req:Request,
+    res:Response,
+    next: NextFunction
+) => {
+    try {
+        const users = await getLeaderboard();
+        return res.status(200).json({
+            success: true,
+            users
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
+
+
 router.post("/login", loginUser);
 router.post("/register", registerUser);
 router.get("/me", authenticateToken, getCurrentUser);
+router.get("/leaderboard",Leaderboard)
+router.get("/:id", getUserProfileById);
 router.put("/profile", authenticateToken,upload.single("profile_picture"), updateProfile);
 router.put("/password", authenticateToken,changePassword);
 

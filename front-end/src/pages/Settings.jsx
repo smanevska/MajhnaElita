@@ -134,17 +134,19 @@ alert(data.message);
                         <label>Email</label>
                         <input 
                             value={user.email}
-                            readOnly
-                        />
+                            readOnly/>
 
                         <label>Phone number</label>
                         <input
-                            value={user.phone || ""}
+                            type="tel"
+                            value={!user.phone || user.phone === "null" ? "" : user.phone}
+                            placeholder="Enter phone number"
                            onChange={(e)=>
                             setUser({ ...user, phone:e.target.value })} />
                         <label>Location</label>
                         <input
-                            value={user.location || ""}
+                            value={!user.location || user.location === "null" ? "" : user.location}
+                            placeholder="Enter location"
                             onChange={(e)=>
                                 setUser({...user,location:e.target.value})}/>
 

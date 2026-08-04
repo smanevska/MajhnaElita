@@ -1,9 +1,11 @@
+import { useParams } from "react-router";
 import { useEffect, useState, useRef } from "react";
 import Menu from "../components/Menu";
 import { authFetch, API_URL } from "../api/api";
 
 
-export default function Profile() {
+export default function UserProfile() {
+    const { id } = useParams();
     const [user, setUser] = useState({
         first_name: "",
         last_name: "",
@@ -12,23 +14,24 @@ export default function Profile() {
         profile_picture:"",
         points: 0  });
         
+
     const [items, setItems] = useState([]);
+
     const listingRef = useRef();
     const donationRef = useRef();
     const reviewRef = useRef();
-    const wishlistRef = useRef();
 
     useEffect(() => {
         async function loadProfile() {
             try {
                 //get user information
-                const userResponse = await authFetch("/users/me");
+                const userResponse = await fetch(`${API_URL}/users/${id}`);
                 const userData = await userResponse.json();
                 if (userData.success) {
                     setUser(userData.user);
                 }
                 //get user's items
-                const itemsResponse = await authFetch("/items/my");
+                const itemsResponse = await fetch(`${API_URL}/items/user/${id}`);
                 const itemsData = await itemsResponse.json();
                 if (itemsData.success) {
                     setItems(itemsData.items);
@@ -48,30 +51,8 @@ export default function Profile() {
         return `${API_URL}/${path}`;
     }
 
-    //delete item card function
-    async function deleteMyItem(id){
-    const confirmDelete=window.confirm("Do you want to delete this item?")
-    if (!confirmDelete)return;
-    const response=await authFetch(
-        `/items/${id}`,
-        {method:"DELETE"}
-    );
-    const data =await response.json();
-    if (data.success){
-        const itemsResponse = await authFetch("/items/my");
-        const itemsData = await itemsResponse.json();
-    if(itemsData.success){
-    setItems(itemsData.items);
-    }
-        const userResponse = await authFetch("/users/me");
-        const userData = await userResponse.json();
-    if(userData.success){
-        setUser(userData.user);
-    }
-}
-}
 
-    function ItemCard({ item, donation = false,myItem=false }) {
+    function ItemCard({ item, donation = false}) {
         return (
             <div className="profile-item-card">
                 <img
@@ -93,7 +74,7 @@ export default function Profile() {
                             :
                             <p>
                                 {
-                                    Number(item.item_type_id) === 2
+                                    item.item_type_id === 2
                                         ?
                                         `€${item.item_price}/day`
                                         :
@@ -101,15 +82,15 @@ export default function Profile() {
                                 }
                             </p>
                     }
-                    {myItem && (<button className="delete-btn" 
-                                        onClick={()=>deleteMyItem(item.id)}>Delete</button>)}
-                </div>
+                    </div>
             </div>
   ); }
     const listings = items.filter(
-        item => Number(item.item_type_id) !== 3);
+        item => Number(item.item_type_id) !== 3
+    );
     const donations = items.filter(
-        item => Number(item.item_type_id) === 3);
+        item => Number(item.item_type_id) === 3
+    );
 
 return (
     <div className="app-shell">
@@ -128,7 +109,8 @@ return (
 
                     <h2>{user.first_name} {user.last_name}</h2>
                     <p>📧 {user.email}</p>
-                    <p>📍 {(!user.location || user.location === "null") ? "No location added" : user.location}</p>
+                    <p>📍 {user.location || "No location added"}</p>
+
                     <div className="profile-stats">
                         <div>
                             ⭐
@@ -158,14 +140,11 @@ return (
                         Reviews
                     </button>
 
-                    <button onClick={() => wishlistRef.current.scrollIntoView({ behavior: "smooth" })}>
-                        Wishlist
-                    </button>
                 </div>
 
                 {/* Listings */}
                 <section ref={listingRef}>
-                    <h2>My Listings</h2>
+                    <h2>Listings</h2>
 
                     <div className="profile-items-grid">
                         {listings.length > 0 ? (
@@ -173,8 +152,6 @@ return (
                                 <ItemCard
                                     key={item.id}
                                     item={item}
-                                    myItem={true}
-                                   
                                 />
                             ))
                         ) : (
@@ -194,7 +171,6 @@ return (
                                     key={item.id}
                                     item={item}
                                     donation={true}
-                                    myItem={true}
                                 />
                             ))
                         ) : (
@@ -207,12 +183,6 @@ return (
                 <section ref={reviewRef}>
                     <h2>Reviews</h2>
                     <div className="empty">No reviews yet</div>
-                </section>
-
-                {/* Wishlist */}
-                <section ref={wishlistRef}>
-                    <h2>Wishlist</h2>
-                    <div className="empty">No wishlist yet</div>
                 </section>
             </div>
         </div>

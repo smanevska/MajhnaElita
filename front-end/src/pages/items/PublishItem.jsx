@@ -6,8 +6,11 @@ import Steps from "../../components/Steps";
 export default function PublishItem(){
     const navigate=useNavigate();
     const [message,setMessage]=useState("");
-
+    const [publishing, setPublishing] = useState(false);
     async function publish(){
+        if(publishing) return;
+        setPublishing(true);
+        try{
         const form=new FormData();
         const image = sessionStorage.getItem("itemImage");
 
@@ -22,6 +25,7 @@ export default function PublishItem(){
 }
         const details=JSON.parse(
             localStorage.getItem("itemDetails"));
+
         form.append("title",details.title);
         form.append("description",details.description);
         form.append("size",details.size || "");
@@ -50,19 +54,22 @@ export default function PublishItem(){
             });
         const data=await response.json();
         console.log(data);
-
-
         if(data.success){
             setMessage("Item published successfully");
+            setTimeout(()=>{ navigate("/dashboard");},1500);
         }
         else{
             setMessage(data.message || "Publishing failed");
         }
+    }catch(error){
+        console.log(error);
+        setMessage("Publishing failed");
+    }finally{
+        setPublishing(false);
     }
-    const details=JSON.parse(
-        localStorage.getItem("itemDetails") );
-
-
+}
+const details = JSON.parse(
+    localStorage.getItem("itemDetails") );
 
     return(
         <div>
@@ -100,8 +107,8 @@ export default function PublishItem(){
                         >
                             Back
                         </button>
-                     <button onClick={publish}>
-                            Publish
+                     <button onClick={publish}disabled={publishing}>
+                            {publishing ? "Publishing..." : "Publish"}
                         </button>
                     </div>
 

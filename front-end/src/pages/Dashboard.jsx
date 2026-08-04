@@ -1,23 +1,18 @@
 import { useEffect,useState} from "react";
 import Menu from "../components/Menu";
 import {useNavigate} from "react-router";
-//Hardcoded data
-const stats=[
-  {icon:"📦", value:"12", label:"Active Items"},
-  {icon:"€", value:"€264", label:"Total Sales"},
-  {icon:"⏱", value:"3", label:"Active Rentals"},
-  {icon:"🏅", value:"380", label:"Donation Points"}
-];
-
-const leaderboard=[
-  {name:"Sara Manevska", tag:"Top Donor", pts:"1250 pts"},
-  {name:"James Katen", tag:"Community", pts:"980 pts"},
-  {name:"Michael Richmond", tag:"Helper", pts:"870 pts"}
-];
 
 export default function Dashboard(){
 const navigate = useNavigate();
 const [items,setItems]=useState([]);
+const [currentUser,setCurrentUser]=useState(null);
+const [leaderboard, setLeaderboard] = useState([]);
+
+const stats=[
+  {icon:"📦", value:items.length, label:"Active Items"},
+  {icon:"⏱", value:"3", label:"Active Rentals"},
+  { icon:"🏅",value:currentUser?.points || 0,label:"Donation Points"}
+];
   useEffect(() => {
   async function getUser(){
     const token = localStorage.getItem("token");
@@ -30,7 +25,8 @@ const [items,setItems]=useState([]);
       }
     );
     const data = await response.json();
-    console.log("CURRENT USER:", data);
+    if(data.success){
+    setCurrentUser(data.user); }
   }
   getUser();
 }, []);
@@ -50,6 +46,53 @@ useEffect(()=>{
   getPublishedItems();
 },[]);
 
+
+useEffect(() => {
+    async function getLeaderboard(){
+        try{
+            const response = await fetch(
+                "http://88.200.63.148:30170/users/leaderboard"
+            );
+            const data = await response.json();
+            if(data.success){
+                setLeaderboard(data.users);
+            }
+        }catch(error){
+            console.log("Leaderboard error:", error);
+        }
+    }
+    getLeaderboard();
+}, [currentUser]);
+useEffect(() => {
+
+  const refreshUser = async () => {
+    const token = localStorage.getItem("token");
+
+    const response = await fetch(
+      "http://88.200.63.148:30170/users/me",
+      {
+        headers:{
+          Authorization:`Bearer ${token}`
+        }
+      }
+    );
+
+    const data = await response.json();
+
+    if(data.success){
+      setCurrentUser(data.user);
+    }
+  };
+
+
+  window.addEventListener("focus", refreshUser);
+
+  return () => {
+    window.removeEventListener("focus", refreshUser);
+  };
+
+}, []);
+
   return(
     <div className="app-shell">
       <Menu />
@@ -58,7 +101,6 @@ useEffect(()=>{
         <div className="topbar">
           <input className="search" placeholder="Search" />
           <div className="actions">
-            <button className="icon-btn">🛒</button>
             <button className="icon-btn">🔔</button>
             <button className="add-btn" onClick={()=>navigate("/add-item")} >+ Add New Item </button>
           </div>
@@ -77,14 +119,14 @@ useEffect(()=>{
         <div className="panel">
           <h3>Top donors leaderboard</h3>
           {leaderboard.map((row, i) => (
-            <div className="leaderboard-row" key={row.name}>
+            <div className="leaderboard-row" key={row.id} onClick={( )=> navigate(`/user-profile/${row.id}`)}>
               <span className="rank">{i + 1}</span>
-              <img alt="" />
+              <img src={row.profile_picture ? `http://88.200.63.148:30170/${row.profile_picture}` : "/profile.png"}alt="" />
               <span className="name">
-                {row.name}
-                <span className="tag">{row.tag}</span>
+                {row.first_name} {row.last_name}
+                <span className="tag">Top Donor</span>
               </span>
-              <span className="pts">{row.pts}</span>
+              <span className="pts">{row.points} points</span>
             </div>
           ))}
         </div>
@@ -92,7 +134,13 @@ useEffect(()=>{
         <div className="panel">
           <h3>Published Items</h3>
           <div className="profile-items-grid"> 
-            {items.length>0 ? items.map(item=>(<div className="profile-item-card" key={item.id}>
+            {items.length>0 ? items.map(item=>(<div className="profile-item-card" key={item.id} 
+            onClick={() => {
+                            if(currentUser && currentUser.id === item.user_id){
+                            navigate("/profile");
+                          } else{
+                                navigate(`/user-profile/${item.user_id}`);
+                          }}}>
               <img src={`http://88.200.63.148:30170/${item.image}`}alt={item.title}/>
               <div className="item-info">
                 <h3>{item.title}</h3>

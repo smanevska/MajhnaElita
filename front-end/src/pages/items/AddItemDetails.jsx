@@ -3,27 +3,24 @@ import { useNavigate } from "react-router";
 import Steps from "../../components/Steps";
 
 export default function AddItemDetails() {
-
     const navigate = useNavigate();
     const [data, setData] = useState({
-        title: "",
-        description: "",
+        title:"",
+        description:"",
         size: "",
-        category: "",
-        conditionn: "",
-        gender: "",
-        age_group: ""
+        category:"",
+        conditionn:"",
+        gender:"",
+        age_group:""
     });
 
     function change(e) {
-
         setData({
             ...data,
             [e.target.name]: e.target.value
         });
-
     }
-
+    
     function next() {
         if (
             !data.title ||
@@ -127,8 +124,6 @@ export default function AddItemDetails() {
 
                     </select>
 
-
-
                     <label>Condition</label>
 
                     <select
@@ -199,16 +194,12 @@ export default function AddItemDetails() {
                             5-8
                         </option>
 
-                        <option value="6-8">
-                            6-8
-                        </option>
-
                         <option value="8-13">
-                            8-13
+                            8-14
                         </option>
 
                         <option value="13+">
-                            13+
+                            14+
                         </option>
                     </select>
                     <div className="item-buttons">

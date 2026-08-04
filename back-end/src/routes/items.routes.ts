@@ -1,6 +1,6 @@
 import { Router, Request, Response } from "express";
 import multer from "multer";
-import { createItem, getItemsByUser,getPublishedItems,deleteItem } from "../db/database.js";
+import { createItem, getItemsByUser,getPublishedItems,deleteItem,getItemsByUserId,createDonation,addUserPoints,getDonationByItemId, removeUserPoints} from "../db/database.js";
 import { authenticateToken, AuthRequest } from "../middleware/auth.js";
 const router = Router();
 
@@ -41,8 +41,8 @@ router.post(
             const imagePath = req.file
                 ? `uploads/items/${req.file.filename}`
                 : "";
-
-            await createItem(
+            const itemType = item_type_id ? Number(item_type_id) : null;
+            const result= await createItem(
                 title,
                 description,
                 size,
@@ -50,13 +50,18 @@ router.post(
                 gender,
                 conditionn,
                 age_group,
-                item_type_id ? Number(item_type_id) : null,
+                itemType,
                 item_price ? Number(item_price) : null,
                 category,
                 location,
                 userId
             );
-
+            const itemId = result.insertId;
+            // If item is a donation give 2 points
+            if(itemType === 3){
+            await createDonation(userId,itemId,2);
+            await addUserPoints(userId,2);
+}
             res.json({
                 success: true,
                 message: "Item published successfully"
@@ -72,6 +77,25 @@ router.post(
         }
     }
 );
+
+router.get("/user/:id",async(
+    req:Request,
+    res:Response )=>{
+    try{
+        const userId = Number(req.params.id);
+        const items = await getItemsByUserId(userId);
+        res.status(200).json({
+            success:true,
+            items
+        });
+    }catch(error){
+        console.log(error);
+        res.status(500).json({
+            success:false,
+            message:"Could not load user items"
+        });
+    }
+});
 
 router.get(
     "/my",
@@ -96,28 +120,44 @@ router.get(
 
 router.delete("/:id",
     authenticateToken,
-    async(req:AuthRequest,res)=>{
-        try{
-            const itemId=Number(req.params.id);
-            const result=await deleteItem(itemId, req.user.id);
+    async (req: AuthRequest, res) => {
+        try {
+            const itemId = Number(req.params.id);
+            const donation =await getDonationByItemId(itemId);
+            // first delete only if owner
+            const result = await deleteItem(
+                itemId,
+                req.user.id
+            );
+            if (result.affectedRows === 0) {
+                return res.status(403).json({
+                    success: false,
+                    message: "You cannot delete this item"
+                });
+            }
+            // now remove donation points
+            //const donation = await getDonationByItemId(itemId);
+            if (donation.length > 0) {
+                console.log("Removing points:", donation[0].points_awarded,"from user:",donation[0].user_id);
+                await removeUserPoints(
+                    donation[0].user_id,
+                    donation[0].points_awarded
+                );
+            }
+            res.json({
+                success: true,
+                message: "Item deleted successfully"
+            });
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({
+                success: false,
+                message: "Delete failed"
+            });
+        }
+    });
 
-        if(result.affect===0){
-            return res.status(403).json({
-                success:false,
-                message:"You cannot delete this item"
-            }); 
-           }
-
-        res.json({
-            success:true,
-            message:"Item was deleted"
-        });
-    }catch(error){
-        resizeBy.status(500).json({
-            success:false
-        });
-    }
-});
+    
 router.get(
     "/",
     async (req, res) => {
@@ -135,4 +175,6 @@ router.get(
             });
         }
 });
+
+
 export default router;

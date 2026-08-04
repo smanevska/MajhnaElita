@@ -53,7 +53,8 @@ export async function getUserById(id:number){
             password,
             phone,
             location,
-            profile_picture
+            profile_picture,
+            points
         FROM user
         WHERE id = ? `,
         [id]
@@ -152,6 +153,17 @@ export async function getItemsByUser(userId:number){
 
     return rows;
 }
+export async function getItemsByUserId(userId:number){
+    const [rows] = await pool.query(
+        `SELECT *
+        FROM item
+        WHERE user_id = ?
+        AND status='published'
+        ORDER BY id DESC`,
+        [userId]
+    );
+    return rows as any[];
+}
 
 export async function getPublishedItems(){
     const [rows] = await pool.query(
@@ -176,6 +188,70 @@ export async function deleteItem(
     );
     return result as any;
 }
+export async function createDonation(
+    user_id:number,
+    item_id:number,
+    points:number
+){
+    const [result]=await pool.query(
+        `INSERT INTO donation(user_id, item_id,points_awarded)
+        VALUES(?,?,?)`,
+        [user_id,item_id, points]
+    );
+    return result as any;
+}
 
+export async function addUserPoints(
+    user_id:number,
+    points:number
+){
+    const [result]=await pool.query(
+        `UPDATE user
+        SET points=points + ?
+        WHERE id=?`,
+        [points, user_id]
+    );
+    return result as any;
+}
+
+export async function getLeaderboard() {
+    const [rows] = await pool.query(
+       `SELECT
+            id,
+            first_name,
+            last_name,
+            profile_picture,
+            points
+        FROM user
+        ORDER BY points DESC
+        LIMIT 3`
+    );
+    return rows as any[];
+}
+
+export async function getDonationByItemId(item_id:number){
+    const [rows] = await pool.query(
+        `SELECT 
+            user_id,
+            points_awarded
+        FROM donation
+        WHERE item_id=?`,
+        [item_id]
+    );
+    return rows as any[];
+}
+
+export async function removeUserPoints(
+    user_id:number,
+    points:number
+){
+    const [result] = await pool.query(
+        `UPDATE user
+        SET points =GREATEST(points - ?, 0)
+        WHERE id=?`,
+        [points,user_id]
+    );
+    return result as any;
+}
 
 export default pool;

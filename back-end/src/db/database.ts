@@ -164,7 +164,6 @@ export async function getItemsByUserId(userId:number){
         `SELECT *
         FROM item
         WHERE user_id = ?
-        AND status='published'
         ORDER BY id DESC`,
         [userId]
     );
@@ -175,7 +174,7 @@ export async function getPublishedItems(){
     const [rows] = await pool.query(
         `SELECT *
         FROM item
-        WHERE status='published'
+        
         ORDER BY id DESC
         LIMIT 20`
     );
@@ -259,5 +258,100 @@ export async function removeUserPoints(
     );
     return result as any;
 }
+
+
+export async function markItemSold(
+    itemId:number,
+    userId:number
+){
+const [result]=await pool.query(
+    `UPDATE item
+    SET status='sold'
+    WHERE id=?
+    AND user_id=?
+    AND status='published'`
+    [itemId,userId]
+);
+return result as any;
+}
+
+
+export async function createReview(
+    rating:number,
+    comment:string,
+    reviewer_id:number,
+    item_id:number
+){
+const [result]=await pool.query(
+    `INSERT INTO reviews
+    (rating,
+    comment,
+    reviewer_id,
+    item_id)
+    VALUES(?,?,?,?)`,
+[rating, comment,reviewer_id,item_id]
+);
+return result as any;
+}
+
+export async function getReviewsByUser(
+userId:number
+){
+const [rows]=await pool.query(
+    `SELECT
+        reviews.rating,
+        reviews.comment,
+        reviews.reviewer_id,
+        item.title,
+        user.first_name,
+        user.last_name
+    FROM reviews
+    JOIN item
+        ON reviews.item_id = item.id
+    JOIN user
+        ON reviews.reviewer_id = user.id
+    WHERE item.user_id = ?
+    ORDER BY reviews.id DESC;`,
+    [userId]
+);
+return rows;
+}
+
+
+export async function getUserRating(
+userId:number
+){
+const [rows]=await pool.query(
+    `SELECT 
+        AVG(reviews.rating) AS rating
+    FROM reviews
+    JOIN item
+    ON reviews.item_id=item.id
+    WHERE item.user_id=?`,
+    [userId]
+);
+return rows[0];
+}
+
+export async function getReviewsByItem(itemId:number){
+const [rows]=await pool.query(
+    `SELECT *
+    FROM reviews
+    WHERE item_id=?`,
+    [itemId]
+);
+return rows;
+}
+
+export async function getItemById(id:number){
+const [rows]=await pool.query(
+    `SELECT *
+    FROM item
+    WHERE id=?`,
+    [id]
+);
+return (rows as any[])[0];
+}
+
 
 export default pool;

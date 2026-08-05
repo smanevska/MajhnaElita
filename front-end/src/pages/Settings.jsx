@@ -91,7 +91,6 @@ alert(data.message);
                         placeholder="Search"
                     />
                     <div className="actions">
-                        <button className="icon-btn">🛒</button>
                         <button className="icon-btn">🔔</button>
                         <button className="add-btn" onClick={()=>navigate("/add-item")} >+ Add New Item </button>
                     </div>
@@ -185,22 +184,6 @@ alert(data.message);
 
                         <button className="save-btn" onClick={changePassword}>
                             Update Password
-                        </button>
-
-                    </div>
-
-                    <div className="settings-card">
-                        <h2>Payment Methods</h2>
-
-                        <div className="payment">
-                            Visa ****4242
-                            <span>
-                                Default
-                            </span>
-                        </div>
-
-                        <button className="add-btn">
-                            Add Payment Method
                         </button>
 
                     </div>

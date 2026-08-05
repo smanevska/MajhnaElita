@@ -5,13 +5,13 @@ import path from "path";
 //Routes
 import usersRouter from "./routes/users.routes.js";
 import itemsRouter from "./routes/items.routes.js";
-
+import reviewsRouter from "./routes/reviews.routes.js";
 const app = express();
 const port = Number(process.env.PORT) || 30170;
 
 // Middleware
 app.use(cors({
-  origin:"http://88.200.63.148:30171", // frontend address
+  origin:"http://88.200.63.148:30171", //frontend address
   credentials: true,
 }));
 
@@ -36,6 +36,11 @@ app.use(
     express.static(path.join(process.cwd(), "uploads"))
 );
 
+app.use("/items",itemsRouter);
+
+
+app.use("/reviews",reviewsRouter);
+
 
 //Error Handler
 app.use(
@@ -52,7 +57,7 @@ app.use(
     });
   }
 );
-app.use("/items",itemsRouter);
+
 // Start server
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);

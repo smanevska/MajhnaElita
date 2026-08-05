@@ -1,6 +1,6 @@
 import { Router, Request, Response } from "express";
 import multer from "multer";
-import { createItem, getItemsByUser,getPublishedItems,deleteItem,getItemsByUserId,createDonation,addUserPoints,getDonationByItemId, removeUserPoints} from "../db/database.js";
+import { createItem, getItemsByUser,getPublishedItems,deleteItem,getItemsByUserId,createDonation,addUserPoints,getDonationByItemId, removeUserPoints,markItemSold} from "../db/database.js";
 import { authenticateToken, AuthRequest } from "../middleware/auth.js";
 const router = Router();
 
@@ -180,5 +180,31 @@ router.get(
         }
 });
 
-
+//mark an item as sold
+router.put(
+    "/:id/sold",
+    authenticateToken,
+    async (req: AuthRequest, res) => {
+        try {
+            const itemId = Number(req.params.id);
+            const result =
+                await markItemSold(
+                    itemId,
+                    req.user.id );
+            if (result.affectedRows === 0) {
+                return res.status(403).json({
+                    success: false,
+                    message: "Cannot update item"
+                });
+            }
+            res.json({
+                success: true
+            });
+        }catch (error) {
+            console.log(error);
+            res.status(500).json({
+                success: false
+            });
+        }
+    });
 export default router;

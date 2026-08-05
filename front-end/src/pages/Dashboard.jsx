@@ -13,9 +13,10 @@ function formatDate(date) {
 }
 const stats=[
   {icon:"📦", value:items.length, label:"Active Items"},
-  {icon:"⏱", value:"3", label:"Active Rentals"},
+  {icon:"⏱", value:"0", label:"Active Rentals"},
   { icon:"🏅",value:currentUser?.points || 0,label:"Donation Points"}
 ];
+
   useEffect(() => {
   async function getUser(){
     const token = localStorage.getItem("token");
@@ -33,6 +34,7 @@ const stats=[
   }
   getUser();
 }, []);
+
 
 useEffect(()=>{
   async function getPublishedItems(){
@@ -66,11 +68,11 @@ useEffect(() => {
     }
     getLeaderboard();
 }, [currentUser]);
-useEffect(() => {
 
+
+useEffect(() => {
   const refreshUser = async () => {
     const token = localStorage.getItem("token");
-
     const response = await fetch(
       "http://88.200.63.148:30170/users/me",
       {
@@ -79,22 +81,18 @@ useEffect(() => {
         }
       }
     );
-
     const data = await response.json();
-
     if(data.success){
       setCurrentUser(data.user);
     }
   };
-
-
   window.addEventListener("focus", refreshUser);
-
   return () => {
     window.removeEventListener("focus", refreshUser);
   };
-
 }, []);
+
+
 
   return(
     <div className="app-shell">
@@ -141,7 +139,7 @@ useEffect(() => {
             onClick={() => {
                             if(currentUser && currentUser.id === item.user_id){
                             navigate("/profile");
-                          } else{
+                            } else{
                                 navigate(`/user-profile/${item.user_id}`);
                           }}}>
               <img src={`http://88.200.63.148:30170/${item.image}`}alt={item.title}/>
@@ -155,8 +153,7 @@ useEffect(() => {
                   <>
                   <p>€{item.item_price}/day</p>
                   {item.rental_start && item.rental_end && (
-                <small> Available: <br/> {formatDate(item.rental_start)}{" - "}{formatDate(item.rental_end)}</small>
-                )}
+                <small> Available: <br/> {formatDate(item.rental_start)}{" - "}{formatDate(item.rental_end)}</small>)}
                 </>
                 :
                 <p>€{item.item_price}</p>
@@ -167,7 +164,6 @@ useEffect(() => {
             <div className="empty"> No published items yet </div>}
           </div>
         </div>
-
 
       </div>
     </div>

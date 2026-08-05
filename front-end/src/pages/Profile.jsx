@@ -17,7 +17,8 @@ export default function Profile() {
     const [openMenu, setOpenMenu] = useState(null);
     const [rating, setRating] = useState(0);
     const [reviews, setReviews] = useState([]);
-
+    const [wishlist,setWishlist]=useState([]);
+    
     const listingRef = useRef();
     const donationRef = useRef();
     const reviewRef = useRef();
@@ -38,14 +39,17 @@ export default function Profile() {
                 if (itemsData.success) {
                     setItems(itemsData.items);
                 }
-                const reviewsResponse =
-                    await authFetch(`/reviews/user/${userData.user.id}`);
-                const reviewsData =
-                    await reviewsResponse.json();
+                const reviewsResponse =await authFetch(`/reviews/user/${userData.user.id}`);
+                const reviewsData = await reviewsResponse.json();
                 if (reviewsData.success) {
                     setReviews(reviewsData.reviews);
                     const avg =reviewsData.reviews.length ? (reviewsData.reviews.reduce((sum, r) => sum + r.rating, 0 ) / reviewsData.reviews.length ).toFixed(1) : 0;
                     setRating(avg);
+                }
+                const wishlistResponse=await authFetch(`/wishlist/user/${userData.user.id}`);
+                const wishlistData=await wishlistResponse.json();
+                if(wishlistData.success){
+                    setWishlist(wishlistData.wishlist);
                 }
             }catch (error) {
                 console.log("Profile loading error:", error);
@@ -269,8 +273,17 @@ return (
                 {/* Wishlist */}
                 <section ref={wishlistRef}>
                     <h2>Wishlist</h2>
-                    <div className="empty">No wishlist yet</div>
+                    <div className="profile-items-grid">
+                        {
+                            wishlist.length > 0 ? wishlist.map(item => (
+                                    <ItemCard key={item.id} item={item} />
+                                ))
+                                :
+                                <div className="empty"> No wishlist yet </div>
+                        }
+                    </div>
                 </section>
+
             </div>
         </div>
     </div>

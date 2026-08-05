@@ -65,6 +65,7 @@ export default function UserProfile() {
     function ItemCard({ item, donation = false }) {
         return (
             <div className="profile-item-card">
+                <button className="wishlist-heart" onClick={(e)=>{ e.stopPropagation(); addWishlist(item.id);}}>❤️</button>
                 <img src={imageUrl(item.image)} alt={item.title} />
                 <div className="item-info">
                     <h3> {item.title} </h3>

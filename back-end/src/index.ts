@@ -6,6 +6,7 @@ import path from "path";
 import usersRouter from "./routes/users.routes.js";
 import itemsRouter from "./routes/items.routes.js";
 import reviewsRouter from "./routes/reviews.routes.js";
+import wishlistRouter from "./routes/wishlist.routes.js";
 const app = express();
 const port = Number(process.env.PORT) || 30170;
 
@@ -41,6 +42,7 @@ app.use("/items",itemsRouter);
 
 app.use("/reviews",reviewsRouter);
 
+app.use("/wishlist",wishlistRouter);
 
 //Error Handler
 app.use(

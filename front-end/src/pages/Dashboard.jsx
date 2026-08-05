@@ -1,6 +1,7 @@
 import { useEffect,useState} from "react";
 import Menu from "../components/Menu";
 import {useNavigate} from "react-router";
+import { authFetch } from "../api/api";
 
 export default function Dashboard(){
 const navigate = useNavigate();
@@ -93,7 +94,20 @@ useEffect(() => {
 }, []);
 
 
-
+async function addToWishlist(itemId) {
+    const response = await authFetch( "/wishlist",
+        {
+            method: "POST",
+            body: JSON.stringify({
+                item_id: itemId
+            })
+        }
+    );
+    const data = await response.json();
+    if (data.success) {
+        console.log("Added item to wishlist!");
+    }
+}
   return(
     <div className="app-shell">
       <Menu />
@@ -135,14 +149,16 @@ useEffect(() => {
         <div className="panel">
           <h3>Published Items</h3>
           <div className="profile-items-grid"> 
-            {items.length>0 ? items.map(item=>(<div className="profile-item-card" key={item.id} 
-            onClick={() => {
+            {items.length>0 ? items.map(item=>(
+              <div className="profile-item-card" key={item.id} 
+                  onClick={() => {
                             if(currentUser && currentUser.id === item.user_id){
                             navigate("/profile");
                             } else{
                                 navigate(`/user-profile/${item.user_id}`);
                           }}}>
               <img src={`http://88.200.63.148:30170/${item.image}`}alt={item.title}/>
+              <button className="wishlist-btn" onClick={(e) => {e.stopPropagation();addToWishlist(item.id);}}> ❤️</button>
               <div className="item-info">
                 <h3>{item.title}</h3>
                 {Number(item.item_type_id) === 3 ?

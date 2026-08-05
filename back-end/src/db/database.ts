@@ -353,5 +353,31 @@ const [rows]=await pool.query(
 return (rows as any[])[0];
 }
 
+export async function addToWishlist(
+    user_id:number,
+    item_id:number
+){
+    const[result]=await pool.query(
+        `INSERT INTO wishlist(user_id,item_id)
+        VALUES (?,?)`,
+        [user_id,item_id]
+    );
+    return result;
+}
+
+
+export async function getUserWishlist(
+    user_id:number
+){
+    const [rows]= await pool.query(
+        `SELECT item. *
+        FROM wishlist
+        JOIN item
+            ON wishlist.item_id=item.id
+            WHERE wishlist.user_id=?`,
+        [user_id]
+    );
+    return rows;
+}
 
 export default pool;

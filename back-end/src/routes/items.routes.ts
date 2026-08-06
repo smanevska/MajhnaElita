@@ -207,4 +207,24 @@ router.put(
             });
         }
     });
+
+router.get("/items/my", authenticateToken, async(req,res)=>{
+    try{
+        const userId = req.user.id;
+        const items = await getItemsByUser(userId);
+        const activeItems = items.filter(
+            item => item.status === "published"
+        );
+        res.json({
+            success:true,
+            items:activeItems
+        });
+    }catch(error){
+        console.log(error);
+        res.status(500).json({
+            success:false,
+            message:"Error loading my items"
+        });
+    }
+});
 export default router;

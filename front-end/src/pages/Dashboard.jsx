@@ -9,13 +9,14 @@ const [items,setItems]=useState([]);
 const [currentUser,setCurrentUser]=useState(null);
 const [leaderboard, setLeaderboard] = useState([]);
 const [wishlist,setWishlist]=useState([]);
+const [myItems,setMyItems] = useState([]);
 //Converts database date format into a readable date format
 function formatDate(date) {
   if (!date) return "";
   return new Date(date).toLocaleDateString("en-CA");
 }
 const stats=[
-  {icon:"📦", value:items.length, label:"Active Items"},
+  {icon:"📦", value:myItems.length, label:"Active Items"},
   {icon:"⏱", value:"0", label:"Active Rentals"},
   { icon:"🏅",value:currentUser?.points || 0,label:"Donation Points"}
 ];
@@ -116,6 +117,22 @@ async function getMyWishlist(){
       }
     }
   }
+  //displaying user's current number of items for sale 
+useEffect(()=>{
+  async function getMyItems(){
+    try{
+      const response = await authFetch("/items/my");
+      const data = await response.json();
+      if(data.success){
+        setMyItems(data.items);
+      }
+    }catch(error){
+      console.log("My items error:",error);
+    }
+  }
+  getMyItems();
+},[]);
+
 
   return(
     <div className="app-shell">

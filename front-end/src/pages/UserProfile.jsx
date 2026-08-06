@@ -240,6 +240,7 @@ return (
                                     <div className="review-card" key={review.id}>
                                     <h4> {"⭐".repeat(review.rating)} </h4>
                                         <p> {review.comment} </p>
+                                        <p> Reviewed by: {review.first_name} {review.last_name}</p>
                                         <small>  Item: {review.title}</small>
                                     </div>
                                 ))

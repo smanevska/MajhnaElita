@@ -102,10 +102,6 @@ export default function AddItemDetails() {
                             Sports & Outdoor
                         </option>
 
-                        <option value="Furniture">
-                            Furniture
-                        </option>
-
                         <option value="Feeding Essentials">
                             Feeding Essentials
                         </option>

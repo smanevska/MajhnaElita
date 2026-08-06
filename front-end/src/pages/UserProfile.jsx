@@ -2,7 +2,6 @@ import { useParams } from "react-router";
 import { useEffect, useState, useRef } from "react";
 import Menu from "../components/Menu";
 import { authFetch, API_URL } from "../api/api";
-import {useNavigate} from "react-router";
 
 export default function UserProfile() {
     const { id } = useParams();
@@ -13,14 +12,14 @@ export default function UserProfile() {
         location:"",
         profile_picture:"",
         points: 0  });
-    const navigate = useNavigate();
+
     const [items, setItems] = useState([]);
     const [reviews,setReviews]=useState([]);
     const [rating,setRating]=useState(0);
     const [reviewItem,setReviewItem]=useState(null);
     const [newRating,setNewRating]=useState(0);
     const [comment,setComment]=useState("");
-
+    
     const listingRef = useRef();
     const donationRef = useRef();
     const reviewRef = useRef();
@@ -45,12 +44,14 @@ export default function UserProfile() {
                  const reviewsData =
                 await reviewsResponse.json();
                 if(reviewsData.success){
-                setReviews(reviewsData.reviews);
-                const avg = reviewsData.reviews.length > 0 ? (reviewsData.reviews.reduce( (sum, r) => sum + r.rating, 0 )/ reviewsData.reviews.length ).toFixed(1) : 0;
-                setRating(avg); }  
+                    setReviews(reviewsData.reviews);
+                    const avg = reviewsData.reviews.length > 0 ? (reviewsData.reviews.reduce( (sum, r) => sum + r.rating, 0 )/ reviewsData.reviews.length ).toFixed(1) : 0;
+                    setRating(avg); 
+                }  
             } catch (error) {
                 console.log("Profile loading error:", error);
             }
+ 
         }
         loadProfile();
     }, []);
@@ -65,7 +66,6 @@ export default function UserProfile() {
     function ItemCard({ item, donation = false }) {
         return (
             <div className="profile-item-card">
-                <button className="wishlist-heart" onClick={(e)=>{ e.stopPropagation(); addWishlist(item.id);}}>❤️</button>
                 <img src={imageUrl(item.image)} alt={item.title} />
                 <div className="item-info">
                     <h3> {item.title} </h3>

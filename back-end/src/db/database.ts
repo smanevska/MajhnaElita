@@ -370,7 +370,7 @@ export async function getUserWishlist(
     user_id:number
 ){
     const [rows]= await pool.query(
-        `SELECT item. *
+        `SELECT item.*
         FROM wishlist
         JOIN item
             ON wishlist.item_id=item.id
@@ -378,6 +378,34 @@ export async function getUserWishlist(
         [user_id]
     );
     return rows;
+}
+
+export async function removeFromWishlist(
+    user_id:number,
+    item_id:number
+){
+    const [result] = await pool.query(
+        `DELETE FROM wishlist
+         WHERE user_id=? 
+         AND item_id=?`,
+        [user_id,item_id]
+    );
+    return result as any;
+}
+
+
+export async function checkWishlist(
+    user_id:number,
+    item_id:number
+){
+    const [rows] = await pool.query(
+        `SELECT *
+         FROM wishlist
+         WHERE user_id=? 
+         AND item_id=?`,
+        [user_id,item_id]
+    );
+    return (rows as any[]).length > 0;
 }
 
 export default pool;

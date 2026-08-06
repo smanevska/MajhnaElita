@@ -1,5 +1,4 @@
-export const API_URL = "http://88.200.63.148:30170";
-
+export const API_URL = import.meta.env.VITE_API_URL;
 export async function apiFetch(url, options={}) {
     return fetch(API_URL + url, {
         ...options,

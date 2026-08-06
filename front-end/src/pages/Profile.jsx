@@ -46,10 +46,10 @@ export default function Profile() {
                     const avg =reviewsData.reviews.length ? (reviewsData.reviews.reduce((sum, r) => sum + r.rating, 0 ) / reviewsData.reviews.length ).toFixed(1) : 0;
                     setRating(avg);
                 }
-                const wishlistResponse=await authFetch(`/wishlist/user/${userData.user.id}`);
+                const wishlistResponse=await authFetch("/wishlist/my/");
                 const wishlistData=await wishlistResponse.json();
                 if(wishlistData.success){
-                    setWishlist(wishlistData.wishlist);
+                    setWishlist( wishlistData.wishlist.map(item => item.id));
                 }
             }catch (error) {
                 console.log("Profile loading error:", error);
@@ -88,9 +88,22 @@ export default function Profile() {
         }
     }
 
-    function ItemCard({ item, donation = false, myItem = false }) {
+    function ItemCard({ item, donation = false, myItem = false,wishlistItem = false}) {
         return (
             <div className="profile-item-card">
+                {wishlistItem && (
+                    <button
+                        className={
+                            wishlist.includes(item.id) ? "wishlist-heart saved"  : "wishlist-heart" }
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            toggleWishlist(item.id);
+                        }} >
+                        {
+                            wishlist.includes(item.id)  ?  "❤️":  "🤍"
+                        }
+                    </button>
+                )}
                 <img src={imageUrl(item.image)} alt={item.title} />
                 <div className="item-info">
                     <h3>{item.title} </h3>
@@ -136,11 +149,10 @@ export default function Profile() {
         );
     }
 
-    const listings = items.filter(
-        item => Number(item.item_type_id) !== 3);
-    const donations = items.filter(
-        item => Number(item.item_type_id) === 3);
-
+    const listings = items.filter(item => Number(item.item_type_id) !== 3);
+    const donations = items.filter(item => Number(item.item_type_id) === 3);
+    const wishlistItems = items.filter( item => wishlist.includes(item.id));
+        
 
     function formatDate(date) {
         if (!date) return "";
@@ -161,6 +173,28 @@ export default function Profile() {
             setItems(itemsData.items);
             setOpenMenu(null);
         }
+    }
+    async function toggleWishlist(itemId) {
+        const response = await authFetch(
+            "/wishlist/toggle",
+            {
+                method: "POST",
+                body: JSON.stringify({
+                    item_id: itemId
+                })
+            }
+        );
+        const data = await response.json();
+        if (data.success) {
+            const wishlistResponse = await authFetch("/wishlist/my");
+        const wishlistData = await wishlistResponse.json();
+
+        if(wishlistData.success){
+            setWishlist(
+                wishlistData.wishlist.map(item=>item.id)
+            );
+        }
+    }
     }
 
 return (
@@ -275,8 +309,8 @@ return (
                     <h2>Wishlist</h2>
                     <div className="profile-items-grid">
                         {
-                            wishlist.length > 0 ? wishlist.map(item => (
-                                    <ItemCard key={item.id} item={item} />
+                            wishlist.length > 0 ? wishlistItems.map(item => (
+                                    <ItemCard key={item.id} item={item}wishlistItem={true} />
                                 ))
                                 :
                                 <div className="empty"> No wishlist yet </div>

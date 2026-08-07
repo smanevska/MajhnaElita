@@ -12,14 +12,13 @@ const storage=multer.diskStorage({
         cb(null, Date.now() + "-" +file.originalname);
     }
 });
-const upload = multer({ storage });
+const upload = multer({storage});
 
-// LOGIN
+// Login
 const loginUser=async (
     req: Request,
     res: Response,
-    next: NextFunction
-) => {
+    next: NextFunction) => {
     try {
         const {email, password}=req.body as {
             email?: string;
@@ -41,9 +40,7 @@ const loginUser=async (
                 message:"User is not registered."
             });
         }
-
         const user = queryResult[0];
-
         // Check password
         if (password !== user.password) {
             return res.status(401).json({
@@ -68,19 +65,14 @@ const loginUser=async (
     }
 };
 
-// REGISTER
+//register
 const registerUser = async (
     req: Request,
     res: Response,
-    next: NextFunction
-) => {
+    next: NextFunction)=> {
     try {
-        const {
-            first_name,
-            last_name,
-            email,
-            password,
-        }=req.body as {
+        const {first_name,last_name,email,password}
+        =req.body as {
             first_name?: string;
             last_name?: string;
             email?: string;
@@ -144,8 +136,7 @@ const registerUser = async (
 };
 
 
-
-// GET CURRENT USER
+//get current user
 const getCurrentUser=async(
     req:AuthRequest,
     res:Response,
@@ -154,19 +145,16 @@ const getCurrentUser=async(
     try {
         const userId=req.user.id;
         const queryResult = await getUserById(userId);
-
         if (queryResult.length === 0){
             return res.status(404).json({
                 success: false,
                 message: "User not found."
             });
         }
-
         return res.status(200).json({
             success: true,
             user: queryResult[0]
         });
-
     } catch(error){
         next(error);
     }
@@ -181,10 +169,7 @@ const updateProfile=async (
 ) => {
     try{
         const userId=req.user.id;
-        const {
-            phone,
-            location
-        } = req.body;
+        const { phone, location}=req.body;
         const profile_picture = req.file
             ? "uploads/profiles/" + req.file.filename
             : "";
@@ -209,19 +194,14 @@ const updateProfile=async (
     }
 };
 
+// Change password for authenticated user
 const changePassword = async (
     req: AuthRequest,
     res: Response,
-    next: NextFunction
-) => {
-
+    next: NextFunction) => {
     try{
         const userId = req.user.id;
-        const {
-            currentPassword,
-            newPassword,
-            confirmPassword
-        } = req.body;
+        const {currentPassword, newPassword,confirmPassword} = req.body;
         const users = await getUserById(req.user.id);
         const user = users[0];
         if(currentPassword !== user.password){
@@ -250,7 +230,7 @@ const changePassword = async (
 };
 
 
-//Public user profile
+// Get public profile information of a user by ID
 const getUserProfileById = async (
     req: Request,
     res: Response,
@@ -273,7 +253,7 @@ const getUserProfileById = async (
         next(error);
     }
 };
-
+// Get leaderboard,returns users ranked by donation points
 const Leaderboard = async (
     req:Request,
     res:Response,
@@ -291,13 +271,12 @@ const Leaderboard = async (
 };
 
 
-
 router.post("/login", loginUser);
 router.post("/register", registerUser);
+router.get("/leaderboard",Leaderboard);
 router.get("/me", authenticateToken, getCurrentUser);
-router.get("/leaderboard",Leaderboard)
-router.get("/:id", getUserProfileById);
 router.put("/profile", authenticateToken,upload.single("profile_picture"), updateProfile);
 router.put("/password", authenticateToken,changePassword);
+router.get("/:id", getUserProfileById);
 
 export default router;

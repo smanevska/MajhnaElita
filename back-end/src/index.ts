@@ -5,20 +5,20 @@ import path from "path";
 //Routes
 import usersRouter from "./routes/users.routes.js";
 import itemsRouter from "./routes/items.routes.js";
+import reviewsRouter from "./routes/reviews.routes.js";
+import wishlistRouter from "./routes/wishlist.routes.js";
 
 const app = express();
 const port = Number(process.env.PORT) || 30170;
 
 // Middleware
 app.use(cors({
-  origin:"http://88.200.63.148:30171", // frontend address
+  origin:"http://88.200.63.148:30171", //frontend address
   credentials: true,
 }));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-
-
 // Test route
 app.get("/", (_req: Request, res: Response) => {
   res.json({
@@ -27,8 +27,6 @@ app.get("/", (_req: Request, res: Response) => {
   });
 });
 
-
-
 //Account and Profile Management
 app.use("/users", usersRouter);
 app.use(
@@ -36,8 +34,13 @@ app.use(
     express.static(path.join(process.cwd(), "uploads"))
 );
 
+app.use("/items",itemsRouter);
 
-//Error Handler
+app.use("/reviews",reviewsRouter);
+
+app.use("/wishlist",wishlistRouter);
+
+//Error Handler if any route crashes
 app.use(
   (
     error: unknown,
@@ -52,7 +55,7 @@ app.use(
     });
   }
 );
-app.use("/items",itemsRouter);
+
 // Start server
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);

@@ -33,15 +33,11 @@ export default function PublishItem(){
         form.append("conditionn",details.conditionn || "");
         form.append("gender",details.gender || "unisex");
         form.append("age_group",details.age_group || "3-5");
-        form.append(
-            "item_type_id",
-            localStorage.getItem("itemType"));
-        form.append(
-            "item_price",
-            localStorage.getItem("itemPrice") || 0);
-        form.append(
-            "location",
-            localStorage.getItem("itemLocation")|| "");
+        form.append("item_type_id",localStorage.getItem("itemType"));
+        form.append("item_price",localStorage.getItem("itemPrice") || 0);
+        form.append( "location",localStorage.getItem("itemLocation")|| "");
+        form.append("rental_start",localStorage.getItem("rental_start") || "");
+        form.append( "rental_end", localStorage.getItem("rental_end") || "");
         const token =localStorage.getItem("token");
         const response= await fetch(
             "http://88.200.63.148:30170/items",

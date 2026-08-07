@@ -1,6 +1,6 @@
 import { Router, Request, Response } from "express";
 import multer from "multer";
-import { createItem, getItemsByUser,getPublishedItems,deleteItem,getItemsByUserId,createDonation,addUserPoints,getDonationByItemId, removeUserPoints} from "../db/database.js";
+import { createItem, getItemsByUser,getPublishedItems,deleteItem,getItemsByUserId,createDonation,addUserPoints,getDonationByItemId, removeUserPoints,markItemSold} from "../db/database.js";
 import { authenticateToken, AuthRequest } from "../middleware/auth.js";
 const router = Router();
 
@@ -15,13 +15,12 @@ const storage =multer.diskStorage({
 });
 
 const upload =multer({storage});
-//Create a new item
+//create a new item and save its image, if the item is a donation award points to the user
 router.post(
     "/",
     authenticateToken,
     upload.single("image"),
     async (req: AuthRequest, res: Response) => {
-
         try {
             const userId = req.user.id;
             const {
@@ -34,9 +33,10 @@ router.post(
                 item_type_id,
                 item_price,
                 category,
-                location
+                location,
+                rental_start,
+                rental_end
             } = req.body;
-
             //saved image path if the user uploaded an image
             const imagePath = req.file
                 ? `uploads/items/${req.file.filename}`
@@ -54,14 +54,16 @@ router.post(
                 item_price ? Number(item_price) : null,
                 category,
                 location,
-                userId
+                userId,
+                rental_start || null,
+                rental_end || null
             );
             const itemId = result.insertId;
             // If item is a donation give 2 points
             if(itemType === 3){
             await createDonation(userId,itemId,2);
             await addUserPoints(userId,2);
-}
+        }
             res.json({
                 success: true,
                 message: "Item published successfully"
@@ -77,7 +79,7 @@ router.post(
         }
     }
 );
-
+// Get all items belonging to a specific user by user ID
 router.get("/user/:id",async(
     req:Request,
     res:Response )=>{
@@ -96,16 +98,14 @@ router.get("/user/:id",async(
         });
     }
 });
-
+//get all items created by the currently logged-in user
 router.get(
     "/my",
     authenticateToken,
     async (req: AuthRequest, res: Response) => {
 
         try {
-            const items = await getItemsByUser(
-                req.user.id
-            );
+            const items = await getItemsByUser( req.user.id);
             res.json({
                 success: true,
                 items
@@ -117,7 +117,7 @@ router.get(
             });
         }
     });
-
+// Delete an item owned by the logged in user and remove donation points if needed
 router.delete("/:id",
     authenticateToken,
     async (req: AuthRequest, res) => {
@@ -136,7 +136,6 @@ router.delete("/:id",
                 });
             }
             // now remove donation points
-            //const donation = await getDonationByItemId(itemId);
             if (donation.length > 0) {
                 console.log("Removing points:", donation[0].points_awarded,"from user:",donation[0].user_id);
                 await removeUserPoints(
@@ -157,7 +156,7 @@ router.delete("/:id",
         }
     });
 
-    
+// Get all published items for the dashboard display 
 router.get(
     "/",
     async (req, res) => {
@@ -176,5 +175,51 @@ router.get(
         }
 });
 
-
+//mark an item as sold
+router.put(
+    "/:id/sold",
+    authenticateToken,
+    async (req: AuthRequest, res) => {
+        try {
+            const itemId = Number(req.params.id);
+            const result =
+                await markItemSold(
+                    itemId,
+                    req.user.id );
+            if (result.affectedRows === 0) {
+                return res.status(403).json({
+                    success: false,
+                    message: "Cannot update item"
+                });
+            }
+            res.json({
+                success: true
+            });
+        }catch (error) {
+            console.log(error);
+            res.status(500).json({
+                success: false
+            });
+        }
+    });
+// active published items of the logged in user
+router.get("/items/my", authenticateToken, async(req,res)=>{
+    try{
+        const userId = req.user.id;
+        const items = await getItemsByUser(userId);
+        const activeItems = items.filter(
+            item => item.status === "published"
+        );
+        res.json({
+            success:true,
+            items:activeItems
+        });
+    }catch(error){
+        console.log(error);
+        res.status(500).json({
+            success:false,
+            message:"Error loading my items"
+        });
+    }
+});
 export default router;

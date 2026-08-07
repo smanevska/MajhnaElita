@@ -1,6 +1,8 @@
 export const API_URL = import.meta.env.VITE_API_URL;
+
+//for public API requests
 export async function apiFetch(url, options={}) {
-    return fetch(API_URL + url, {
+    return fetch(API_URL+url,{
         ...options,
         headers:{
             "Content-Type":"application/json",
@@ -9,7 +11,7 @@ export async function apiFetch(url, options={}) {
     });
 }
 
-
+//for protected API requests that need login token
 export async function authFetch(url, options={}) {
     const token = localStorage.getItem("token");
 

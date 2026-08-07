@@ -7,6 +7,7 @@ import usersRouter from "./routes/users.routes.js";
 import itemsRouter from "./routes/items.routes.js";
 import reviewsRouter from "./routes/reviews.routes.js";
 import wishlistRouter from "./routes/wishlist.routes.js";
+
 const app = express();
 const port = Number(process.env.PORT) || 30170;
 
@@ -18,8 +19,6 @@ app.use(cors({
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-
-
 // Test route
 app.get("/", (_req: Request, res: Response) => {
   res.json({
@@ -27,8 +26,6 @@ app.get("/", (_req: Request, res: Response) => {
     status: "OK"
   });
 });
-
-
 
 //Account and Profile Management
 app.use("/users", usersRouter);
@@ -39,12 +36,11 @@ app.use(
 
 app.use("/items",itemsRouter);
 
-
 app.use("/reviews",reviewsRouter);
 
 app.use("/wishlist",wishlistRouter);
 
-//Error Handler
+//Error Handler if any route crashes
 app.use(
   (
     error: unknown,

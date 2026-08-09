@@ -228,6 +228,7 @@ export async function getLeaderboard() {
             profile_picture,
             points
         FROM user
+        WHERE points > 0
         ORDER BY points DESC
         LIMIT 3`
     );

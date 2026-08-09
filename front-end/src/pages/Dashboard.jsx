@@ -134,13 +134,13 @@ useEffect(()=>{
   getMyItems();
 },[]);
 
+//Search functionality function
 const filteredItems=items.filter(item =>{
-    const text =search.toLowerCase();
-    return (
-        item.title.toLowerCase().includes(text) ||
-        item.first_name.toLowerCase().includes(text)||
-        item.last_name.toLowerCase().includes(text)
-    );
+     const text=search.toLowerCase().trim();
+    const title =item.title?.toLowerCase() || "";
+    const name=`${item.first_name ||""} ${item.last_name ||""}`.toLowerCase();
+
+    return title.includes(text) || name.includes(text);
 });
 
   return(

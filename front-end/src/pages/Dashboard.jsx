@@ -10,6 +10,7 @@ const [currentUser,setCurrentUser]=useState(null);
 const [leaderboard, setLeaderboard] = useState([]);
 const [wishlist,setWishlist]=useState([]);
 const [myItems,setMyItems] = useState([]);
+const [search, setSearch] =useState("");
 //Converts database date format into a readable date format
 function formatDate(date) {
   if (!date) return "";
@@ -133,6 +134,14 @@ useEffect(()=>{
   getMyItems();
 },[]);
 
+const filteredItems=items.filter(item =>{
+    const text =search.toLowerCase();
+    return (
+        item.title.toLowerCase().includes(text) ||
+        item.first_name.toLowerCase().includes(text)||
+        item.last_name.toLowerCase().includes(text)
+    );
+});
 
   return(
     <div className="app-shell">
@@ -140,7 +149,7 @@ useEffect(()=>{
 
       <div className="main-area">
         <div className="topbar">
-          <input className="search" placeholder="Search" />
+          <input className="search" placeholder="Search items or users" value={search} onChange={(e) => setSearch(e.target.value)}/>
           <div className="actions">
             <button className="icon-btn">🔔</button>
             <button className="add-btn" onClick={()=>navigate("/add-item")} >+ Add New Item </button>
@@ -175,7 +184,7 @@ useEffect(()=>{
         <div className="panel">
           <h3>Published Items</h3>
           <div className="profile-items-grid"> 
-            {items.length>0 ? items.map(item=>(
+            {filteredItems.length > 0 ? filteredItems.map(item =>(
               <div className="profile-item-card" key={item.id} 
                   onClick={() => {
                             if(currentUser && currentUser.id === item.user_id){
@@ -217,7 +226,7 @@ useEffect(()=>{
                 </div>
             </div>))
             :
-            <div className="empty"> No published items yet </div>}
+            <div className="empty"> No matching items found</div>}
           </div>
         </div>
 

@@ -295,11 +295,10 @@ const [result]=await pool.query(
 return result as any;
 }
 
-export async function getReviewsByUser(
-userId:number
-){
+export async function getReviewsByUser(userId:number){
 const [rows]=await pool.query(
     `SELECT
+        reviews.id,
         reviews.rating,
         reviews.comment,
         reviews.reviewer_id,
@@ -307,10 +306,8 @@ const [rows]=await pool.query(
         user.first_name,
         user.last_name
     FROM reviews
-    JOIN item
-        ON reviews.item_id = item.id
-    JOIN user
-        ON reviews.reviewer_id = user.id
+    JOIN item ON reviews.item_id = item.id
+    JOIN user ON reviews.reviewer_id = user.id
     WHERE item.user_id = ?
     ORDER BY reviews.id DESC;`,
     [userId]

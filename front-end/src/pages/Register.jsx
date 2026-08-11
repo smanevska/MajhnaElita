@@ -1,6 +1,7 @@
 import {useState} from "react";
 import {Link, useNavigate } from "react-router";
 import logo from "../assets/Logo.png";
+import {apiFetch} from "../api/api";
 
 export default function Register(){
 
@@ -55,13 +56,10 @@ export default function Register(){
     try{
       console.log("Sending:", user);
 
-      const response = await fetch(
-        "http://88.200.63.148:30170/users/register",
+      const response = await apiFetch(
+        "/users/register",
         {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
           body: JSON.stringify({
             first_name: user.first_name,
             last_name: user.last_name,

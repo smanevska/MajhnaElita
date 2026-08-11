@@ -10,6 +10,7 @@ export default function AddItemPhoto() {
         alert("Please select an image");
         return;
     }
+    //FileReader allows JavaScript to read the selected file
     const reader = new FileReader();
     reader.onloadend = () => {
         sessionStorage.setItem(
@@ -24,13 +25,9 @@ export default function AddItemPhoto() {
         <div>
             <Steps step={1} />
             <div className="item-page">
-
                 <div className="item-card">
-
                     <h2>Upload Photo</h2>
-
                     <div className="upload-box">
-
                         <input
                             type="file"
                             accept="image/*"
@@ -38,9 +35,7 @@ export default function AddItemPhoto() {
                                 setImage(e.target.files[0])
                             }
                         />
-
                     </div>
-
                     <div className="item-buttons">
                         <button
                             type="button"

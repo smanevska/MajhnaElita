@@ -39,13 +39,9 @@ export default function PublishItem(){
         form.append("rental_start",localStorage.getItem("rental_start") || "");
         form.append( "rental_end", localStorage.getItem("rental_end") || "");
         const token =localStorage.getItem("token");
-        const response= await fetch(
-            "http://88.200.63.148:30170/items",
+        const response= await authFetch("/items",
             {
                 method:"POST",
-                headers: {
-                    Authorization:`Bearer ${token}`
-                },
                 body:form
             });
         const data=await response.json();

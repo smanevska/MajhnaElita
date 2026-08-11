@@ -39,11 +39,8 @@ export default function AddItemType() {
             <Steps step={3} />
             <div className="item-page">
                 <div className="item-card">
-
                     <h2>Item Type</h2>
-
                     <div className="type-buttons">
-
                         <button
                             className={type === 1 ? "selected" : ""}
                             onClick={() => setType(1)}>
@@ -63,7 +60,6 @@ export default function AddItemType() {
                         </button>
 
                     </div>
-
                     {type === 1 && (
                         <input
                             type="number"
@@ -71,7 +67,6 @@ export default function AddItemType() {
                             onChange={(e) => setValue(e.target.value)} />
                     )
                     }
-
                     {
                         type === 2 && (
                             <>

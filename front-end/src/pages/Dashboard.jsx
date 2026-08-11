@@ -10,6 +10,7 @@ const [currentUser,setCurrentUser]=useState(null);
 const [leaderboard, setLeaderboard] = useState([]);
 const [wishlist,setWishlist]=useState([]);
 const [myItems,setMyItems] = useState([]);
+const [search, setSearch] =useState("");
 //Converts database date format into a readable date format
 function formatDate(date) {
   if (!date) return "";
@@ -17,10 +18,10 @@ function formatDate(date) {
 }
 const stats=[
   {icon:"📦", value:myItems.length, label:"Active Items"},
-  {icon:"⏱", value:"0", label:"Active Rentals"},
+  {icon:"⏱", value:"0", label:"Active Rentals"}, //harcoded to 0
   { icon:"🏅",value:currentUser?.points || 0,label:"Donation Points"}
 ];
-// Fetches logged-in user's profile data
+// Fetches logged in user's profile data
 useEffect(() => {
   async function getUser(){
     const response = await authFetch("/users/me");
@@ -64,7 +65,7 @@ useEffect(() => {
     getLeaderboard();
 }, []);
 
-
+//Refresh the dashboard when user comes back
 useEffect(() => {
   const refreshUser = async () => {
     const response = await authFetch("/users/me");
@@ -78,16 +79,17 @@ useEffect(() => {
     window.removeEventListener("focus", refreshUser);
   };
 }, []);
+
+//gets users wishlist
 async function getMyWishlist(){
-    const response = await authFetch(
-        "/wishlist/my");
+    const response = await authFetch("/wishlist/my");
     const data = await response.json();
     if(data.success){
         return data.wishlist.map(item=>item.id);
     }
     return [];
 }
-
+//loading wishlits when dashboard opens
   useEffect(() => {
     async function loadWishlist() {
       const ids = await getMyWishlist();
@@ -95,7 +97,8 @@ async function getMyWishlist(){
     }
     loadWishlist();
   }, []);
-// Adds or removes an item from the user's wishlist
+
+//Adds or removes an item from the user's wishlist
   async function toggleWishlist(itemId) {
     const response = await authFetch(
       "/wishlist/toggle",
@@ -133,6 +136,14 @@ useEffect(()=>{
   getMyItems();
 },[]);
 
+//Search functionality function
+const filteredItems=items.filter(item =>{
+     const text=search.toLowerCase().trim();
+    const title =item.title?.toLowerCase() || "";
+    const name=`${item.first_name ||""} ${item.last_name ||""}`.toLowerCase();
+
+    return title.includes(text) || name.includes(text);
+});
 
   return(
     <div className="app-shell">
@@ -140,7 +151,7 @@ useEffect(()=>{
 
       <div className="main-area">
         <div className="topbar">
-          <input className="search" placeholder="Search" />
+          <input className="search" placeholder="Search items or users" value={search} onChange={(e) => setSearch(e.target.value)}/>
           <div className="actions">
             <button className="icon-btn">🔔</button>
             <button className="add-btn" onClick={()=>navigate("/add-item")} >+ Add New Item </button>
@@ -175,7 +186,7 @@ useEffect(()=>{
         <div className="panel">
           <h3>Published Items</h3>
           <div className="profile-items-grid"> 
-            {items.length>0 ? items.map(item=>(
+            {filteredItems.length > 0 ? filteredItems.map(item =>(
               <div className="profile-item-card" key={item.id} 
                   onClick={() => {
                             if(currentUser && currentUser.id === item.user_id){
@@ -199,6 +210,7 @@ useEffect(()=>{
                   {
                     wishlist.includes(item.id) ? "❤️": "🤍" 
                   }</button>
+
               <div className="item-info">
                 <h3>{item.title}</h3>
                 {Number(item.item_type_id) === 3 ?
@@ -217,7 +229,7 @@ useEffect(()=>{
                 </div>
             </div>))
             :
-            <div className="empty"> No published items yet </div>}
+            <div className="empty"> No matching items found</div>}
           </div>
         </div>
 

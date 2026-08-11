@@ -3,8 +3,8 @@ import { useNavigate } from "react-router";
 import Steps from "../../components/Steps";
 
 export default function AddItemDetails() {
-    const navigate = useNavigate();
-    const [data, setData] = useState({
+    const navigate = useNavigate();     // to navigate to another page using JavaScript
+    const [data, setData] = useState({  // Stores all the details entered by the user
         title:"",
         description:"",
         size: "",
@@ -13,14 +13,14 @@ export default function AddItemDetails() {
         gender:"",
         age_group:""
     });
-
+    //Runs whenever the user changes an input field
     function change(e) {
         setData({
             ...data,
             [e.target.name]: e.target.value
         });
     }
-    
+    // Runs when the user clicks the Next button
     function next() {
         if (
             !data.title ||

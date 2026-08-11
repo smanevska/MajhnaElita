@@ -1,10 +1,10 @@
-import { useParams } from "react-router";
-import { useEffect, useState, useRef } from "react";
+import {useParams} from "react-router";
+import { useEffect, useState, useRef} from "react";
 import Menu from "../components/Menu";
 import { authFetch, API_URL } from "../api/api";
 
 export default function UserProfile() {
-    const { id } = useParams();
+    const {id} = useParams();   //gets parameters from the url
     const [user, setUser] = useState({
         first_name: "",
         last_name: "",
@@ -75,7 +75,6 @@ export default function UserProfile() {
                     }
                     {
                         item.status === "sold" &&
-                        Number(item.item_type_id) !== 3 &&
                         <button
                             className="review-btn"
                             onClick={() => setReviewItem(item)} >Leave Review  </button>

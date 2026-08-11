@@ -18,10 +18,10 @@ function formatDate(date) {
 }
 const stats=[
   {icon:"📦", value:myItems.length, label:"Active Items"},
-  {icon:"⏱", value:"0", label:"Active Rentals"},
+  {icon:"⏱", value:"0", label:"Active Rentals"}, //harcoded to 0
   { icon:"🏅",value:currentUser?.points || 0,label:"Donation Points"}
 ];
-// Fetches logged-in user's profile data
+// Fetches logged in user's profile data
 useEffect(() => {
   async function getUser(){
     const response = await authFetch("/users/me");
@@ -65,7 +65,7 @@ useEffect(() => {
     getLeaderboard();
 }, []);
 
-
+//Refresh the dashboard when user comes back
 useEffect(() => {
   const refreshUser = async () => {
     const response = await authFetch("/users/me");
@@ -79,16 +79,17 @@ useEffect(() => {
     window.removeEventListener("focus", refreshUser);
   };
 }, []);
+
+//gets users wishlist
 async function getMyWishlist(){
-    const response = await authFetch(
-        "/wishlist/my");
+    const response = await authFetch("/wishlist/my");
     const data = await response.json();
     if(data.success){
         return data.wishlist.map(item=>item.id);
     }
     return [];
 }
-
+//loading wishlits when dashboard opens
   useEffect(() => {
     async function loadWishlist() {
       const ids = await getMyWishlist();
@@ -96,7 +97,8 @@ async function getMyWishlist(){
     }
     loadWishlist();
   }, []);
-// Adds or removes an item from the user's wishlist
+
+//Adds or removes an item from the user's wishlist
   async function toggleWishlist(itemId) {
     const response = await authFetch(
       "/wishlist/toggle",
@@ -208,6 +210,7 @@ const filteredItems=items.filter(item =>{
                   {
                     wishlist.includes(item.id) ? "❤️": "🤍" 
                   }</button>
+
               <div className="item-info">
                 <h3>{item.title}</h3>
                 {Number(item.item_type_id) === 3 ?

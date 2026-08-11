@@ -28,7 +28,7 @@ export default function AppRouter(){
             <Route path="/add-item/publish" element={<PublishItem/>}/>
             <Route path="/profile" element={<Profile/>}/>
             <Route path="/user-profile/:id" element={<UserProfile />} />
-            <Route path="*"  element={<Navigate to="/" />}/>
+            <Route path="*" element={<Navigate to="/" />}/>
         </Routes>
         </BrowserRouter>
 

@@ -1,29 +1,29 @@
-import { useEffect, useState } from "react";
+import {useEffect, useState} from "react";
 import Menu from "../components/Menu";
 import {useNavigate} from "react-router";
-export default function Settings() {
-const navigate = useNavigate();
-    const [user, setUser] = useState({
-        first_name:"",
-        last_name:"",
-        email:"",
-        phone:"",
-        location:"",
-        profile_picture:""
-    });
-    const [passwords,setPasswords] = useState({ currentPassword:"", newPassword:"", confirmPassword:"" });
-    const [selectedFile, setSelectedFile] = useState(null);
-    useEffect(() =>{
-        async function getUser(){
-            const token = localStorage.getItem("token");
-            const response = await fetch(
-                "http://88.200.63.148:30170/users/me",
-                {
-                    headers:{Authorization:`Bearer ${token}`}
-                }
-            );
-            const data = await response.json();
+import {authFetch, API_URL } from "../api/api";
 
+export default function Settings() {
+const navigate=useNavigate();
+//Stores the user's profile information
+const [user, setUser]=useState({
+    first_name:"",
+    last_name:"",
+    email:"",
+     phone:"",
+    location:"",
+    profile_picture:""
+});
+//Stores the password form values
+const [passwords,setPasswords]= useState({currentPassword:"", newPassword:"",confirmPassword:"" });
+//Stores the new profile picture selected by the user
+const [selectedFile, setSelectedFile] =useState(null);
+
+//Loads the logged in user's profile information
+useEffect(() =>{
+    async function getUser(){
+        const response = await authFetch("/users/me");
+        const data = await response.json();
             if(data.success){
                 setUser(data.user);
             }else{
@@ -33,51 +33,42 @@ const navigate = useNavigate();
         getUser();
     },[]);
 
-
-
-async function saveProfile(){
-    const token =localStorage.getItem("token");
-    const formData=new FormData();
-    formData.append("phone", user.phone);
-    formData.append("location", user.location);
-    if (selectedFile) {
-        formData.append("profile_picture", selectedFile);
-    }
-    const response=await fetch(
-        "http://88.200.63.148:30170/users/profile",
-        {
-            method: "PUT",
-            headers: {
-                Authorization: `Bearer ${token}`},
-            body: formData
+    //Saves profile changes and uploads a new profile picture
+    async function saveProfile(){
+        const formData=new FormData();
+        formData.append("phone", user.phone);
+        formData.append("location", user.location);
+        if (selectedFile) {
+            formData.append("profile_picture", selectedFile);
         }
-    );
+        const response=await fetch("/users/profile", 
+            {
+                method: "PUT",
+                body: formData
+            }
+        );
+        const data = await response.json();
+        alert(data.message);
+        window.location.reload();  //reloads the page to display the updated profile
+    }
+
+    //saves the selected profile picture in component state
+    async function handleImageChange(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+        setSelectedFile(file);
+    }
+
+    //Sends the new password to the backend
+    async function changePassword(){
+    const response = await fetch("/users/password",
+    {
+        method:"PUT",
+        body:JSON.stringify(passwords)
+    });
     const data = await response.json();
     alert(data.message);
-    window.location.reload();
-}
-
-async function handleImageChange(event) {
-    const file = event.target.files[0];
-    if (!file) return;
-    setSelectedFile(file);
-}
-
-async function changePassword(){
-const token = localStorage.getItem("token");
-const response = await fetch(
-"http://88.200.63.148:30170/users/password",
-{
-    method:"PUT",
-    headers:{
-    "Content-Type":"application/json",
-    Authorization:`Bearer ${token}`  },
-body:JSON.stringify(passwords)
-}
-);
-const data = await response.json();
-alert(data.message);
-}
+    }
 
     return (
         <div className="app-shell">
@@ -86,13 +77,9 @@ alert(data.message);
             <div className="main-area">
 
                 <div className="topbar">
-                    <input 
-                        className="search" 
-                        placeholder="Search"
-                    />
                     <div className="actions">
                         <button className="icon-btn">🔔</button>
-                        <button className="add-btn" onClick={()=>navigate("/add-item")} >+ Add New Item </button>
+                        <button className="add-btn" onClick={()=>navigate("/add-item")}> + Add New Item </button>
                     </div>
                 </div>
 
@@ -101,9 +88,9 @@ alert(data.message);
                         <h2>Profile Settings</h2>
                         <div className="profile">
 
-                            <img
+                        <img
                         src={
-                        selectedFile ?  URL.createObjectURL(selectedFile) : user.profile_picture ?   `http://88.200.63.148:30170/${user.profile_picture}` :  "/profile.png" }
+                        selectedFile ?  URL.createObjectURL(selectedFile) : user.profile_picture ?  `http://88.200.63.148:30170/${user.profile_picture}` : "/profile.png" }
                         className="profile-image"/>
 
                             <input
@@ -118,22 +105,16 @@ alert(data.message);
                                 <label>First Name</label>
                                 <input 
                                   value={user.first_name}
-                                  readOnly
-                                />
+                                  readOnly />
                             </div>
                             <div>
                                 <label>Last Name</label>
-                                <input 
-                                  value={user.last_name}
-                                  readOnly
-                                />
+                                <input value={user.last_name} readOnly />
                             </div>
                         </div>
 
                         <label>Email</label>
-                        <input 
-                            value={user.email}
-                            readOnly/>
+                        <input  value={user.email} readOnly/>
 
                         <label>Phone number</label>
                         <input
@@ -149,9 +130,7 @@ alert(data.message);
                             onChange={(e)=>
                                 setUser({...user,location:e.target.value})}/>
 
-                        <button className="save-btn" onClick={saveProfile}>
-                            Save Changes
-                        </button>
+                        <button className="save-btn" onClick={saveProfile}> Save Changes</button>
                     </div>
 
                     <div className="settings-card">
@@ -163,34 +142,26 @@ alert(data.message);
                             onChange={(e)=>
                                 setPasswords({
                                 ...passwords,
-                            currentPassword:e.target.value})
-                        }/>
+                            currentPassword:e.target.value}) }/>
 
                         <label>New Password</label>
                         <input type="password" value={passwords.newPassword}
                                 onChange={(e)=>
                                     setPasswords({
                                     ...passwords,
-                            newPassword:e.target.value})
-                        }/>
+                            newPassword:e.target.value})}/>
 
                         <label>Confirm Password</label>
                         <input type="password" value={passwords.confirmPassword}
                                 onChange={(e)=>
                                     setPasswords({
                                     ...passwords,
-                                confirmPassword:e.target.value})
-                        }/>
+                                confirmPassword:e.target.value}) }/>
 
-                        <button className="save-btn" onClick={changePassword}>
-                            Update Password
-                        </button>
-
+                        <button className="save-btn" onClick={changePassword}> Update Password </button>
                     </div>
                 </div>
-
             </div>
-
         </div>
     );
 }

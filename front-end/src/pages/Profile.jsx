@@ -69,8 +69,7 @@ export default function Profile() {
     async function deleteMyItem(id) {
         const confirmDelete = window.confirm("Do you want to delete this item?")
         if (!confirmDelete) return;
-        const response = await authFetch(
-            `/items/${id}`,
+        const response = await authFetch( `/items/${id}`,
             { method: "DELETE" }
         );
         const data = await response.json();
@@ -109,7 +108,7 @@ export default function Profile() {
                     <h3>{item.title} </h3>
                     {
                         item.status === "sold" &&
-                        <span className="sold-label">  Sold</span>
+                        <span className="sold-label">Sold</span>
                     }
 
                     {donation
@@ -158,7 +157,7 @@ export default function Profile() {
         if (!date) return "";
     return new Date(date).toLocaleDateString("en-CA");
 }
-
+    //mark item as sold
     async function changeStatus(id) {
         const response = await authFetch(
             `/items/${id}/sold`,
@@ -174,6 +173,7 @@ export default function Profile() {
             setOpenMenu(null);
         }
     }
+    //adds/removes an item from the wishlist
     async function toggleWishlist(itemId) {
         const response = await authFetch(
             "/wishlist/toggle",
@@ -309,9 +309,7 @@ return (
                     <h2>Wishlist</h2>
                     <div className="profile-items-grid">
                         {
-                            wishlist.length > 0 ? wishlistItems.map(item => (
-                                    <ItemCard key={item.id} item={item}wishlistItem={true} />
-                                ))
+                            wishlist.length > 0 ? wishlistItems.map(item => (<ItemCard key={item.id} item={item} wishlistItem={true} />))
                                 :
                                 <div className="empty"> No wishlist yet </div>
                         }

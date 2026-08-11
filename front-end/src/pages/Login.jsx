@@ -4,10 +4,10 @@ import logo from "../assets/Logo.png";
 import {apiFetch} from "../api/api";
 
 export default function Login() {
-  const navigate = useNavigate();
-  const [data, setData] = useState({ email: "", password: "" });// Stores login form values
-  const [error,setError] = useState("");
-  const [loading,setLoading] = useState(false);
+  const navigate=useNavigate();
+  const [data, setData]= useState({ email: "", password: "" });// Stores login form values
+  const [error,setError] =useState("");
+  const [loading,setLoading]= useState(false);
   //Updates the input value when the user types
   function change(e) {
     setData({ ...data, [e.target.name]: e.target.value });

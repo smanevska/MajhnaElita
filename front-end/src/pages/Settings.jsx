@@ -41,12 +41,10 @@ useEffect(() =>{
         if (selectedFile) {
             formData.append("profile_picture", selectedFile);
         }
-        const response=await fetch("/users/profile", 
-            {
-                method: "PUT",
-                body: formData
-            }
-        );
+        const response = await authFetch("/users/profile", {
+            method: "PUT",
+            body: formData
+    });
         const data = await response.json();
         alert(data.message);
         window.location.reload();  //reloads the page to display the updated profile
@@ -61,7 +59,7 @@ useEffect(() =>{
 
     //Sends the new password to the backend
     async function changePassword(){
-    const response = await fetch("/users/password",
+    const response = await authFetch("/users/password",
     {
         method:"PUT",
         body:JSON.stringify(passwords)
@@ -90,7 +88,7 @@ useEffect(() =>{
 
                         <img
                         src={
-                        selectedFile ?  URL.createObjectURL(selectedFile) : user.profile_picture ?  `http://88.200.63.148:30170/${user.profile_picture}` : "/profile.png" }
+                        selectedFile ?  URL.createObjectURL(selectedFile) : user.profile_picture ?  `${API_URL}/${user.profile_picture}` : "/profile.png" }
                         className="profile-image"/>
 
                             <input

@@ -1053,25 +1053,3 @@ button:hover {
   transform: scale(1.12);
   background: #ffecec;
 }
-
-.wishlist-heart {
-  position: absolute;
-  bottom: 12px;
-  right: 12px;
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  border: none;
-  background: white;
-  font-size: 18px;
-  cursor: pointer;
-  box-shadow: 0 3px 12px rgba(0, 0, 0, .15);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: .2s;
-}
-
-.wishlist-heart:hover {
-  transform: scale(1.15);
-}

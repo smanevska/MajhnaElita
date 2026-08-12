@@ -14,11 +14,11 @@ export async function apiFetch(url, options={}) {
 //for protected API requests that need login token
 export async function authFetch(url, options={}) {
     const token = localStorage.getItem("token");
-
+    const isFormData = options.body instanceof FormData;
     return fetch(API_URL + url, {
         ...options,
         headers:{
-            "Content-Type":"application/json",
+            ...(isFormData ? {} : { "Content-Type": "application/json" }),
             Authorization:`Bearer ${token}`,
             ...options.headers
         }

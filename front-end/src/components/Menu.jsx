@@ -32,8 +32,11 @@ export default function Menu(){
       <button
         className="logout"
         onClick={() =>{
+          const confirmed=window.confirm("Are you sure you want to log out?");
+          if (confirmed) {
           localStorage.removeItem("token");
           window.location.href="/login";    
+          }
           }} >
         Log Out
       </button>

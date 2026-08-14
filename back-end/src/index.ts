@@ -19,12 +19,13 @@ app.use(cors({
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+const frontendPath =path.join(process.cwd(), "frontend-build");
+app.use(express.static(frontendPath));
+
 // Test route
 app.get("/", (_req: Request, res: Response) => {
-  res.json({
-    message: "Majhna Elita API running",
-    status: "OK"
-  });
+    res.sendFile(path.join(frontendPath, "index.html"));
 });
 
 //Account and Profile Management
@@ -33,11 +34,9 @@ app.use(
     "/uploads",
     express.static(path.join(process.cwd(), "uploads"))
 );
-
+//Application routes
 app.use("/items",itemsRouter);
-
 app.use("/reviews",reviewsRouter);
-
 app.use("/wishlist",wishlistRouter);
 
 //Error Handler if any route crashes

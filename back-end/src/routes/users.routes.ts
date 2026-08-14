@@ -172,7 +172,7 @@ const updateProfile=async (
         const { phone, location}=req.body;
         const profile_picture = req.file
             ? "uploads/profiles/" + req.file.filename
-            : "";
+            : null;
         const queryResult=await updateUserProfile(
             userId,
             phone || "",

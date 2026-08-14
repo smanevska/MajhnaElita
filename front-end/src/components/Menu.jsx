@@ -5,7 +5,7 @@ const links = [
   {to:"/dashboard", label:"Dashboard"},
   {to:"/profile", label:"My Items"},
   {to:"#", label:"Messages"},
-//  {to:"#", label:"Transactions" },
+//{to:"#", label:"Transactions" },
   {to:"/settings", label:"Settings"},
 ];
 
@@ -32,8 +32,11 @@ export default function Menu(){
       <button
         className="logout"
         onClick={() =>{
+          const confirmed=window.confirm("Are you sure you want to log out?");
+          if (confirmed) {
           localStorage.removeItem("token");
           window.location.href="/login";    
+          }
           }} >
         Log Out
       </button>

@@ -284,7 +284,7 @@ return (
                                     key={item.id}
                                     item={item}
                                     myItem={true}
-                                    wishlistItem={true} />
+                                    wishlistItem={false} />
                             ))
                         ) : (
                             <div className="empty">No listings yet</div>
@@ -303,7 +303,7 @@ return (
                                     item={item}
                                     donation={true}
                                     myItem={true}
-                                    wishlistItem={true}
+                                    wishlistItem={false}
                                 />
                             ))
                         ) : (

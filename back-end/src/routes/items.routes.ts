@@ -57,7 +57,7 @@ router.post(
                 conditionn,
                 age_group,
                 itemType,
-                item_price ? Number(item_price) : null,
+                item_price ? Number(item_price) : 0,
                 category,
                 location,
                 userId,

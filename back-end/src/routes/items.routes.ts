@@ -42,6 +42,12 @@ router.post(
                 ? `uploads/items/${req.file.filename}`
                 : "";
             const itemType = item_type_id ? Number(item_type_id) : null;
+            if (itemType === null) {
+                return res.status(400).json({
+                    success: false,
+                    message: "Item type is required"
+                });
+            }
             const result= await createItem(
                 title,
                 description,
@@ -203,7 +209,7 @@ router.put(
         }
     });
 // active published items of the logged in user
-router.get("/items/my", authenticateToken, async(req,res)=>{
+router.get("/items/my", authenticateToken, async(req: AuthRequest, res: Response)=>{
     try{
         const userId = req.user.id;
         const items = await getItemsByUser(userId);

@@ -63,7 +63,7 @@ export async function updateUserProfile(
     id: number,
     phone: string,
     location: string,
-    profile_picture: string
+    profile_picture: string | null
 ){
     const [result] = await pool.query(
         `UPDATE user
@@ -147,7 +147,7 @@ return result as any;
 }
 
 export async function getItemsByUser(userId:number){
-    const [rows] = await pool.query(
+    const [rows] = await pool.query<any[]>(
         `SELECT *
         FROM item
         WHERE user_id=?
@@ -319,7 +319,7 @@ return rows;
 export async function getUserRating(
 userId:number
 ){
-const [rows]=await pool.query(
+const [rows]=await pool.query<any[]>(
     `SELECT 
         AVG(reviews.rating) AS rating
     FROM reviews

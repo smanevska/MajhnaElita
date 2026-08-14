@@ -16,15 +16,9 @@ export default function PublishItem(){
 
             if(image){
                 const blob = await fetch(image).then(r => r.blob());
-
-            form.append(
-                "image",
-                blob,
-                "item-image.png"
-    );
-}
-        const details=JSON.parse(
-            localStorage.getItem("itemDetails"));
+                form.append( "image", blob, "item-image.png");
+            }
+        const details=JSON.parse(localStorage.getItem("itemDetails"));
 
         form.append("title",details.title);
         form.append("description",details.description);
@@ -38,7 +32,6 @@ export default function PublishItem(){
         form.append( "location",localStorage.getItem("itemLocation")|| "");
         form.append("rental_start",localStorage.getItem("rental_start") || "");
         form.append( "rental_end", localStorage.getItem("rental_end") || "");
-        const token =localStorage.getItem("token");
         const response= await authFetch("/items",
             {
                 method:"POST",
@@ -48,7 +41,7 @@ export default function PublishItem(){
         console.log(data);
         if(data.success){
             setMessage("Item published successfully");
-            setTimeout(()=>{ navigate("/dashboard");},1500);
+            setTimeout(()=>{ navigate("/dashboard");},1200);
         }
         else{
             setMessage(data.message || "Publishing failed");
@@ -75,19 +68,19 @@ const details = JSON.parse(
 
                     <div className="summary">
                         <p>
-                            <strong>Title:</strong>
+                            <strong>Title: </strong>
                             {details?.title}
                         </p>
                         <p>
-                            <strong>Description:</strong>
+                            <strong>Description: </strong>
                             {details?.description}
                         </p>
                         <p>
-                            <strong>Category:</strong>
+                            <strong>Category: </strong>
                             {details?.category}
                         </p>
                         <p>
-                            <strong>Location:</strong>
+                            <strong>Location: </strong>
                             {localStorage.getItem("itemLocation")}
                         </p>
                     </div>
@@ -99,7 +92,7 @@ const details = JSON.parse(
                         >
                             Back
                         </button>
-                     <button onClick={publish}disabled={publishing}>
+                     <button onClick={publish} disabled={publishing}>
                             {publishing ? "Publishing..." : "Publish"}
                         </button>
                     </div>

@@ -5,7 +5,7 @@ const links = [
   {to:"/dashboard", label:"Dashboard"},
   {to:"/profile", label:"My Items"},
   {to:"#", label:"Messages"},
-//  {to:"#", label:"Transactions" },
+//{to:"#", label:"Transactions" },
   {to:"/settings", label:"Settings"},
 ];
 

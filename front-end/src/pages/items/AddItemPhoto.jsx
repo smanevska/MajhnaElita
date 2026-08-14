@@ -4,7 +4,7 @@ import Steps from "../../components/Steps";
 
 export default function AddItemPhoto() {
     const navigate = useNavigate();
-    const [image, setImage] = useState(null);
+    const [image, setImage]=useState(null);
     function next() {
     if (!image) {
         alert("Please select an image");

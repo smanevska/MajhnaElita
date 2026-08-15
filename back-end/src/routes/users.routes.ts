@@ -170,9 +170,11 @@ const updateProfile=async (
     try{
         const userId=req.user.id;
         const { phone, location}=req.body;
+
+        const currentUser=await getUserById(userId); //Get current user data from database
         const profile_picture = req.file
             ? "uploads/profiles/" + req.file.filename
-            : null;
+            : currentUser[0].profile_picture;//If a new image was uploaded use it,otherwise keep the existing profile picture
         const queryResult=await updateUserProfile(
             userId,
             phone || "",

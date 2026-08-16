@@ -115,10 +115,13 @@ export default function Profile() {
                 <img src={imageUrl(item.image)} alt={item.title} />
                 <div className="item-info">
                     <h3>{item.title} </h3>
-                    {
-                        item.status === "sold" &&
-                        <span className="sold-label">Sold</span>
-                    }
+                    {item.size && (
+                        <p className="item-size">
+                            Size: {item.size}
+                        </p>
+                    )}
+                    { item.status === "sold" &&
+                        <span className="sold-label">Sold</span>}
 
                     {isDonation ? (
                         <span className="donation-label">

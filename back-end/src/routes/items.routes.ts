@@ -76,7 +76,7 @@ router.post(
             });
 
         } catch (error) {
-            console.log("Error creating item:", error);
+            console.error("Error creating item:", error);
 
             res.status(500).json({
                 success: false,

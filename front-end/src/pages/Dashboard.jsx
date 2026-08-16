@@ -213,6 +213,11 @@ const filteredItems=items.filter(item =>{
 
               <div className="item-info">
                 <h3>{item.title}</h3>
+                  {item.size && (
+                    <p className="item-size">
+                      Size: {item.size}
+                    </p>
+                  )}
                 {Number(item.item_type_id) === 3 ?
                   <span className="donation-label">Donation</span>
                   :

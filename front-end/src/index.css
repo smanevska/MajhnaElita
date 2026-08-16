@@ -816,7 +816,6 @@ button:hover {
   position: relative;
   background: white;
   border-radius: 18px;
-  overflow: hidden;
   box-shadow: 0 5px 20px #ddd;
   cursor: pointer;
   overflow: visible;
@@ -1052,4 +1051,314 @@ button:hover {
 .wishlist-btn:hover {
   transform: scale(1.12);
   background: #ffecec;
+}
+.item-size {
+  display:block;
+  width: max-content;
+  max-width: 100%;
+  margin: 8px 0;
+  margin: 5px 0 8px;
+  padding: 4px 9px;
+  border-radius: 6px;
+  background: #f1efff;
+  color: #6c63ff;
+  font-size: 12px;
+  font-weight: 600;
+   white-space: nowrap;
+}
+
+
+
+/* Responsive design*/
+
+@media (max-width: 1000px) {
+  .menu {
+    width: 200px;
+  }
+  .main-area {
+    margin-left: 200px;
+    padding: 24px;
+  }
+  .cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .wishlist-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .profile-page {
+    width: 100%;
+    padding: 20px;
+  }
+  .profile-items-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .auth-left {
+    padding: 40px;
+  }
+  .auth-left h1 {
+    font-size: 34px;
+  }
+}
+@media (max-width: 768px) {
+  .auth-container {
+    flex-direction: column;
+  }
+  .auth-left,
+  .auth-right {
+    width: 100%;
+  }
+  .auth-left {
+    min-height: 300px;
+    padding: 40px 25px;
+  }
+  .auth-left .brand {
+    margin-bottom: 30px;
+  }
+  .auth-left h1 {
+    font-size: 30px;
+  }
+  .auth-right {
+    padding: 30px 20px;
+  }
+  .form-box {
+    width: 100%;
+    max-width: 420px;
+  }
+  .menu {
+    width: 65px;
+    padding: 20px 6px;
+  }
+  .menu .brand {
+    justify-content: center;
+    padding: 0 0 25px;
+  }
+  .menu .brand img {
+    width: 48px;
+  }
+  .menu .brand span {
+    display: none;
+  }
+.menu a {
+  justify-content: center;
+  padding: 12px 2px;
+  font-size: 11px;
+  text-align: center;
+  white-space: normal;
+  line-height: 1.2;
+  flex-direction: column;
+  gap: 4px;
+}
+  .menu a span {
+    font-size: 20px;
+  }
+  .menu .logout {
+    justify-content: center;
+    padding: 12px 5px;
+    font-size: 0;
+  }
+  .menu .logout span {
+    font-size: 20px;
+  }
+
+  .main-area {
+    margin-left: 70px;
+    padding: 20px;
+  }
+  .topbar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 15px;
+  }
+  .topbar .search {
+    width: 100%;
+  }
+  .topbar .actions {
+    justify-content: flex-end;
+  }
+  .cards {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  .card {
+    padding: 15px;
+  }
+  .card h2 {
+    font-size: 24px;
+  }
+  .leaderboard-row {
+    gap: 8px;
+  }
+  .leaderboard-row .pts {
+    font-size: 12px;
+  }
+  .leaderboard-row .tag {
+    display: none;
+  }
+  .profile-items-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+  }
+
+  .profile-item-card img {
+    height: 180px;
+  }
+  .profile-page {
+    padding: 10px;
+  }
+  .profile-card {
+    padding: 25px 15px;
+  }
+  .profile-stats {
+    gap: 15px;
+  }
+  .profile-stats div {
+    padding: 12px 18px;
+  }
+  .profile-tabs {
+    gap: 8px;
+    overflow-x: auto;
+    justify-content: flex-start;
+  }
+  .profile-tabs button {
+    flex-shrink: 0;
+    padding: 10px 18px;
+  }
+  .item-page {
+    padding: 20px 10px;
+  }
+  .item-card {
+    padding: 25px 20px;
+  }
+  .type-buttons {
+    flex-direction: column;
+  }
+  .steps {
+    transform: scale(0.9);
+  }
+  .line {
+    width: 40px;
+  }
+  .menu a::first-letter {
+        font-size: 20px;
+    }
+.menu .logout {
+  justify-content: center;
+  padding: 12px 2px;
+  font-size: 11px;
+  text-align: center;
+  white-space: normal;
+  flex-direction: column;
+  gap: 4px;
+}
+}
+@media (max-width: 480px) {
+  .main-area {
+    margin-left: 65px;
+    padding: 15px 10px;
+    }
+  .menu {
+    width: 58px;
+  }
+
+  .main-area {
+    margin-left: 58px;
+  }
+  .cards {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .card {
+    padding: 12px;
+  }
+  .card .icon {
+    width: 30px;
+    height: 30px;
+    margin-bottom: 8px;
+  }
+  .card h2 {
+    font-size: 20px;
+  }
+  .card p {
+    font-size: 11px;
+  }
+  .profile-page {
+        width: 100%;
+        padding: 10px;
+    }
+  .profile-items-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+  .profile-item-card img {
+    height: 220px;
+  }
+  .profile-card img {
+    width: 90px;
+    height: 90px;
+  }
+  .profile-card h2 {
+    font-size: 20px;
+  }
+  .profile-stats {
+    flex-direction: column;
+    gap: 8px;
+  }
+  .profile-stats div {
+    width: 100%;
+  }
+  .profile-tabs {
+    justify-content: flex-start;
+    padding: 12px 0;
+  }
+  .profile-tabs button {
+    font-size: 12px;
+    padding: 9px 14px;
+  }
+  .item-card {
+    padding: 20px 15px;
+  }
+  .item-card h2 {
+    font-size: 22px;
+  }
+  .item-buttons {
+    flex-direction: column;
+  }
+  .item-buttons button {
+    width: 100%;
+  }
+  .auth-left {
+    min-height: 240px;
+    padding: 30px 20px;
+  }
+  .auth-left h1 {
+    font-size: 26px;
+  }
+  .auth-left p {
+    font-size: 14px;
+  }
+  .form-row {
+    flex-direction: column;
+    gap: 0;
+  }
+  .form-row div {
+    width: 100%;
+  }
+  .leaderboard-row img {
+    width: 30px;
+    height: 30px;
+  }
+  .leaderboard-row .name {
+    font-size: 12px;
+  }
+  .leaderboard-row .pts {
+    font-size: 11px;
+  }
+  .item-info {
+    padding: 14px;
+    }
+    .item-size {
+      width: max-content;
+      max-width: 100%;
+      display: block;
+    }
 }

@@ -69,10 +69,13 @@ export default function UserProfile() {
                 <img src={imageUrl(item.image)} alt={item.title} />
                 <div className="item-info">
                     <h3> {item.title} </h3>
-                    {
-                        item.status === "sold" &&
-                        <span className="sold-label">Sold  </span>
-                    }
+                    {item.size && (
+                        <p className="item-size">
+                            Size: {item.size}
+                        </p>
+                    )}
+                    {item.status === "sold" &&
+                    <span className="sold-label">Sold  </span>}
                     {
                         item.status === "sold" &&
                         <button

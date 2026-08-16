@@ -25,8 +25,8 @@ export default function PublishItem(){
         form.append("size",details.size || "");
         form.append("category",details.category || "");
         form.append("conditionn",details.conditionn || "");
-        form.append("gender",details.gender || "unisex");
-        form.append("age_group",details.age_group || "3-5");
+        form.append("gender",details.gender);
+        form.append("age_group",details.age_group);
         form.append("item_type_id",localStorage.getItem("itemType"));
         form.append("item_price",localStorage.getItem("itemPrice") || 0);
         form.append( "location",localStorage.getItem("itemLocation")|| "");

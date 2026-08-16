@@ -182,6 +182,10 @@ export default function AddItemDetails() {
                             Select age
                         </option>
 
+                        <option value="0-3">
+                            0-3
+                        </option>
+
                         <option value="3-5">
                             3-5
                         </option>
@@ -190,11 +194,11 @@ export default function AddItemDetails() {
                             5-8
                         </option>
 
-                        <option value="8-13">
+                        <option value="8-14">
                             8-14
                         </option>
 
-                        <option value="13+">
+                        <option value="14+">
                             14+
                         </option>
                     </select>

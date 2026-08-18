@@ -18,79 +18,79 @@ The context for addressing this problem is creating a specialized system where p
 The system should enable the following functionalities:
 
 1. Account and Profile Management
-• Users should be able to create, edit, and manage their personal profiles.
-• Profiles include: name, surname, email, phone, optional profile picture, donating points.
-• Users can view their own profile information.
+- Users should be able to create, edit, and manage their personal profiles.
+- Profiles include: name, surname, email, phone, optional profile picture, donating points.
+- Users can view their own profile information.
 
 2. Item Posting and Managing
-• Users can post items for sale, rent, or donation.
-• Include item details: title, category (clothes, toys, gear etc.), size, condition, age, price/rent.
-• Upload photo per item.
-• Option to mark items as available for rent, sale, or donation.
-• When listing items for rent, sellers should be able to define available dates using a calendar view.
+- Users can post items for sale, rent, or donation.
+- Include item details: title, category (clothes, toys, gear etc.), size, condition, age, price/rent.
+- Upload photo per item.
+- Option to mark items as available for rent, sale, or donation.
+- When listing items for rent, sellers should be able to define available dates using a calendar view.
 
 3. Search and Filtering
-• Users should be able to search for items using keywords, categories.
-• Filters based on size, age group, and price range or condition.
-• The system should display results in a list or grid format with thumbnail images.
+- Users should be able to search for items using keywords, categories.
+- Filters based on size, age group, and price range or condition.
+- The system should display results in a list or grid format with thumbnail images.
 
 4. Donation System
-• Users can donate items for free.
-• Donors earn points, top donors will receive recognition.
-• The system maintains a history of donations and points earned.
+- Users can donate items for free.
+- Donors earn points, top donors will receive recognition.
+- The system maintains a history of donations and points earned.
 
 5. Wishlist
-• Users can mark items as favorites or add them to wishlist. Later can view saved items.
+- Users can mark items as favorites or add them to wishlist. Later can view saved items.
 
 6. Communication
-• In-app chat, so users can directly message each other.
-• Users can negotiate prices, clarify product details, method of delivery(pick up in person, home delivery, courier service).
-• The system should notify users of new messages.
+- In-app chat, so users can directly message each other.
+- Users can negotiate prices, clarify product details, method of delivery(pick up in person, home delivery, courier service).
+- The system should notify users of new messages.
 
 7. Transactions
-• Users can buy, rent, or donate items directly on the platform. 
-• Transaction records include: item details, price, sender, receiver, payment method, and date. 
-• Users can view their transaction history. 
-• Sellers can track sales and rentals via a dashboard.
+- Users can buy, rent, or donate items directly on the platform. 
+- Transaction records include: item details, price, sender, receiver, payment method, and date. 
+- Users can view their transaction history. 
+- Sellers can track sales and rentals via a dashboard.
 
 8. Notification System
-• Users receive notifications for important events: 
-• New messages or chat activity. 
-• Purchases, rentals, or donations. 
-• Rental start and return reminders. 
-• System updates or promotions.
+- Users receive notifications for important events: 
+- New messages or chat activity. 
+- Purchases, rentals, or donations. 
+- Rental start and return reminders. 
+- System updates or promotions.
 
 9. Rating System
-• After a transaction (sale, rent, or donation), users can rate the other user. 
-• Ratings are numeric (e.g., 1–5 stars) and optional text feedback can be added. 
-• Users’ profiles display average ratings. 
+- After a transaction (sale, rent, or donation), users can rate the other user. 
+- Ratings are numeric (e.g., 1–5 stars) and optional text feedback can be added. 
+- Users’ profiles display average ratings. 
 
 ## Non-functional requirements
 
 1. Performance
-• The system should handle up to 1000 active users without slowing down. 
-• Search results and images should load quickly (within 3 seconds). 
-• Chat messages should be delivered in real-time. 
-• User actions (listing items, transactions, calendar updates) should respond within 5 seconds.
+- The system should handle up to 1000 active users without slowing down. 
+- Search results and images should load quickly (within 3 seconds). 
+- Chat messages should be delivered in real-time. 
+- User actions (listing items, transactions, calendar updates) should respond within 5 seconds.
 
 2. Information
-• All item, user, and transaction information must be up-to-date. 
-• Users should always see the correct availability status of items. 
-• Integrations (e.g., email notifications, payment gateways) must provide accurate updates.
+- All item, user, and transaction information must be up-to-date. 
+- Users should always see the correct availability status of items. 
+- Integrations (e.g., email notifications, payment gateways) must provide accurate updates.
 
 3. Control and Security
-• User data must be encrypted (SSL/TLS) during storage and transmission. 
-• Sensitive information (email, phone) is shared only with user consent. 
-• Regular backups must be performed to prevent data loss, retaining data for at least 12 months.
+- User data must be encrypted (SSL/TLS) during storage and transmission. 
+- Sensitive information (email, phone) is shared only with user consent. 
+- Regular backups must be performed to prevent data loss, retaining data for at least 12 months.
 
 4. Service
-• The app should be accessible on Web, from any location.
-• Ensure 99% uptime, with maintenance communicated to users. The app should recover from failures.
-• Provide clear user guides, FAQs, and in-app support for users.
+- The app should be accessible on Web, from any location.
+- Ensure 99% uptime, with maintenance communicated to users. The app should recover from failures.
+- Provide clear user guides, FAQs, and in-app support for users.
 
 5. Efficiency
-• The app should have a consistent and responsive UI across all devices. The interface should include tooltips, labels, and icons for better navigation.
-• Listing, searching, and exchanging items should be simple and quick. Users should be able to post items with minimal required information.
+- The app should have a consistent and responsive UI across all devices. The interface should include tooltips, labels, and icons for better navigation.
+- Listing, searching, and exchanging items should be simple and quick. Users should be able to post items with minimal required information.
 
 ## Links
 
